@@ -318,7 +318,7 @@
             <div class="container">
                 <div class="row">
                     <div class="span4">
-                        <h2 class="pacifico">Webmarket &nbsp; <img src="images/webmarket.png" alt="Webmarket Cart" class="align-baseline" /></h2>
+                        <h2 class="pacifico">Webmarket &nbsp; <img src="{% static 'images/webmarket.png' %}" alt="Webmarket Cart" class="align-baseline" /></h2>
                         <p>این یک نوشته آزمایشی است. شما میتوانید این قسمت را با نوشته های دلخواه خود که مناسب این ناحیه باشند پر نمایید. ما این بخش را با نوشته هایی بی معنی پر کرده ایم.</p>
                     </div>
                     <div class="span4">
@@ -338,9 +338,10 @@
                         <p>این بخشی از یک نوشتار آزمایشی صرفا برای پر کردن این ناحیه است.</p>
                         <!-- Begin MailChimp Signup Form -->
                         <div id="mc_embed_signup">
-                        <form action="http://proteusthemes.us4.list-manage1.com/subscribe/post?u=ea0786485977f5ec8c9283d5c&amp;id=5dad3f35e9" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form form-inline" target="_blank" novalidate>
+                        <form action="{% url 'website:home' %}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate form form-inline" target="_blank" novalidate>
+                            {% csrf_token %}
                             <div class="mc-field-group">
-                                <input type="email" value="" placeholder="آدرس ایمیلتان را وارد کنید" name="EMAIL" class="required email" id="mce-EMAIL">
+                                <input type="email" value="" placeholder="آدرس ایمیلتان را وارد کنید" name="email" class="required email" id="mce-EMAIL">
                                 <input type="submit" value="ارسال" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary">
                             </div>
                             <div id="mce-responses" class="clear">

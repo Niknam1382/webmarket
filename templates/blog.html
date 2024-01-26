@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load blog_tags %}
 {% load static %}
 {% block content %}
 
@@ -55,14 +56,14 @@
 
                 <article class="post format-image">
                     <div class="post-inner">
-                        <a href="blog/{{post.id}}"><img src="{{ post.image.url }}" alt='{{ post.title }}'
+                        <a href="{% url 'blog:single' pid=post.id %}"><img src="{{ post.image.url }}" alt='{{ post.title }}'
                                 alt="featured image" width="1540" height="746" /></a>
                         <div class="post-title">
-                            <h2><a href="blog/{{post.id}}"><span class="light">{{ post.title }}</a></h2>
+                            <h2><a href="{% url 'blog:single' pid=post.id %}"><span class="light">{{ post.title }}</a></h2>
                             <div class="metadata">
                                 16 فروردین 1392 /
                                 نوشته شده توسط : <a rel="category tag" title="View all posts in aciform"
-                                    href="#">{{post.author.get_full_name}}</a>
+                                    href="{% url 'blog:author' author_username=post.author.username %}">{{post.author.get_full_name}}</a>
                             </div>
                         </div>
 
@@ -71,22 +72,28 @@
                             {{ post.content|truncatewords:80 }}
                         </p>
 
-                        <a href="blog/{{post.id}}" class="btn btn-primary bold higher">ادامه مطلب</a>
+                        <a href="{% url 'blog:single' pid=post.id %}" class="btn btn-primary bold higher">ادامه مطلب</a>
                     </div>
                 </article>
                 {% endfor %}
                 <!--  ==========  -->
                 <!--  = Pagination =  -->
                 <!--  ==========  -->
-                <div class="pagination">
+                <div class="pagination" style="text-align: center;">
                     <ul>
-                        <li><a href="#" class="btn btn-primary"><span class="icon-chevron-left"></span></a></li>
-                        <li><a href="#">1</a></li>
-                        <li class="active"><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#" class="btn btn-primary"><span class="icon-chevron-right"></span></a></li>
+                        {% if posts.has_previous %}
+                        <li><a href="?page={{ posts.previous_page_number }}" class="btn btn-primary"><span class="icon-chevron-left"></span></a></li>
+                        {% endif %}
+                            {% for i in posts.paginator.page_range %}
+                            {% if posts.number == i %}
+                            <li class="active"><a href="?page={{i}}">{{i}}</a></li>
+                            {% else %}
+                            <li><a href="?page={{i}}">{{i}}</a></li>
+                            {% endif %}
+                            {% endfor %}
+                        {% if posts.has_next %}
+                        <li><a href="?page={{ posts.next_page_number }}" class="btn btn-primary"><span class="icon-chevron-right"></span></a></li>
+                        {% endif %}
                     </ul>
                 </div> <!-- /pagination -->
 
@@ -105,7 +112,7 @@
                             <h3><span class="light">Search</span></h3>
                         </div> -->
 
-                    <form class="form" action="#" id="searchform" method="get" role="search">
+                    <form class="form" action="{% url 'blog:search' %}" id="searchform" method="get" role="search">
                         <input type="text" id="appendedInputButton" class="input-block-level" name="s"
                             placeholder="جستجو در نوشته ها ...">
                         <button type="submit">
@@ -134,8 +141,7 @@
                     </div>
                 </div>
 
-                {% include 'archive.html' %}
-                {{ posts.category.all | join:", "}}
+                {% postcategories %}
 
                 <!--  ==========  -->
                 <!--  = Twitter Widget =  -->

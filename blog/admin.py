@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Post, category
+from blog.models import Post, Category
 # Register your models here.
 '''
 class PostAdmin(admin.ModelAdmin):
@@ -11,4 +11,4 @@ class PostAdmin(admin.ModelAdmin):
     summernote_fields = ('content',)
 '''
 admin.site.register(Post)
-admin.site.register(category)
+admin.site.register(Category)

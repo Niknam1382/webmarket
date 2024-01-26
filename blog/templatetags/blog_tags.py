@@ -1,12 +1,12 @@
 from django import template
-from blog.models import Post, category
+from blog.models import Post, Category
 
 register = template.Library()
 
-@register.inclusion_tag('archive.html')
+@register.inclusion_tag('folder/archive.html')
 def postcategories():
     posts = Post.objects.filter(status=1)
-    category = category.objects.all()
+    category = Category.objects.all()
     cat_dict = {}
     for name in category:
         cat_dict[name] = posts.filter(category=name).count()

@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
+{% load blog_tags %}
 {% block content %}
-
-
-
 
 
 <!--  ==========  -->
@@ -61,10 +59,11 @@
                         <div class="post-title">
                             <h2><span class="light">{{post.title}}</h2>
                             <div class="metadata">
-                                16 فروردین 1392 /
-                                <a href="http://localhost/themeforest/wp-theme/2008/09/layout-test/#comments">بدون
-                                    نظر</a> /
-                                Posted in: <a title="View all posts in aciform" href="#">Webmarket</a>
+                                {{ post.shamsi_publish_date }}
+                                /
+                                نوشته شده توسط : <a title="View all posts in aciform" href="#">{{post.author.get_full_name}}</a>
+                                /
+                                تعداد بازدید : {{ post.counted_views }}
                             </div>
                         </div>
                         <p>{{post.content}}</p>
@@ -85,7 +84,7 @@
                     <!--  ==========  -->
                     <div class="single-comment clearfix">
                         <div class="avatar-container">
-                            <img src="images/dummy/avatars/avatar-2.jpg" alt="avatar" class="avatar" width="184"
+                            <img src="{% static 'images/dummy/avatars/avatar-2.jpg' %}" alt="avatar" class="avatar" width="184"
                                 height="184" />
                         </div>
                         <div class="comment-content">
@@ -109,7 +108,7 @@
                             <!--  ==========  -->
                             <div class="single-comment nested clearfix">
                                 <div class="avatar-container">
-                                    <img src="images/dummy/avatars/avatar-1.jpg" alt="avatar" class="avatar" width="184"
+                                    <img src="{% static 'images/dummy/avatars/avatar-1.jpg' %}" alt="avatar" class="avatar" width="184"
                                         height="184" />
                                 </div>
                                 <div class="comment-content">
@@ -134,7 +133,7 @@
                             <!--  ==========  -->
                             <div class="single-comment nested clearfix">
                                 <div class="avatar-container">
-                                    <img src="images/dummy/avatars/avatar-2.jpg" alt="avatar" class="avatar" width="184"
+                                    <img src="{% static 'images/dummy/avatars/avatar-2.jpg' %}" alt="avatar" class="avatar" width="184"
                                         height="184" />
                                 </div>
                                 <div class="comment-content">
@@ -162,7 +161,7 @@
                     <!--  ==========  -->
                     <div class="single-comment clearfix">
                         <div class="avatar-container">
-                            <img src="images/dummy/avatars/avatar-4.jpg" alt="avatar" class="avatar" width="184"
+                            <img src="{% static 'images/dummy/avatars/avatar-4.jpg' %}" alt="avatar" class="avatar" width="184"
                                 height="184" />
                         </div>
                         <div class="comment-content">
@@ -186,7 +185,7 @@
                             <!--  ==========  -->
                             <div class="single-comment nested clearfix">
                                 <div class="avatar-container">
-                                    <img src="images/dummy/avatars/avatar-1.jpg" alt="avatar" class="avatar" width="184"
+                                    <img src="{% static 'images/dummy/avatars/avatar-1.jpg' %}" alt="avatar" class="avatar" width="184"
                                         height="184" />
                                 </div>
                                 <div class="comment-content">
@@ -209,7 +208,7 @@
                                     <!--  ==========  -->
                                     <div class="single-comment nested clearfix">
                                         <div class="avatar-container">
-                                            <img src="images/dummy/avatars/avatar-2.jpg" alt="avatar" class="avatar"
+                                            <img src="{% static 'images/dummy/avatars/avatar-2.jpg' %}" alt="avatar" class="avatar"
                                                 width="184" height="184" />
                                         </div>
                                         <div class="comment-content">
@@ -239,7 +238,7 @@
                     <!--  ==========  -->
                     <div class="single-comment clearfix">
                         <div class="avatar-container">
-                            <img src="images/dummy/avatars/avatar-1.jpg" alt="avatar" class="avatar" width="184"
+                            <img src="{% static 'images/dummy/avatars/avatar-1.jpg' %}" alt="avatar" class="avatar" width="184"
                                 height="184" />
                         </div>
                         <div class="comment-content">
@@ -335,30 +334,7 @@
                     </div>
                 </div>
 
-                <!--  ==========  -->
-                <!--  = Archive =  -->
-                <!--  ==========  -->
-                <div class="sidebar-item widget_archive">
-                    <div class="underlined">
-                        <h3><span class="light">آرشیو</span>نوشته های بلاگ</h3>
-                    </div>
-
-                    <ul>
-                        <li><a title="February 2013" href="http://localhost/themeforest/wp-theme/2013/02/">بهمن
-                                92</a>&nbsp;(2)</li>
-                        <li><a title="September 2008" href="http://localhost/themeforest/wp-theme/2008/09/">مهر
-                                92</a>&nbsp;(3)</li>
-                        <li><a title="June 2008" href="http://localhost/themeforest/wp-theme/2008/06/">مرداد
-                                92</a>&nbsp;(10)</li>
-                        <li><a title="May 2008" href="http://localhost/themeforest/wp-theme/2008/05/">تیر
-                                92</a>&nbsp;(5)</li>
-                        <li><a title="April 2008" href="http://localhost/themeforest/wp-theme/2008/04/">اردیهبشت
-                                91</a>&nbsp;(1)</li>
-                        <li><a title="March 2008" href="http://localhost/themeforest/wp-theme/2008/03/">فروردین
-                                91</a>&nbsp;(3)</li>
-                    </ul>
-                </div>
-
+                {% postcategories %}
 
                 <!--  ==========  -->
                 <!--  = Twitter Widget =  -->
