@@ -69,7 +69,7 @@
 
                         <p class="push-down-25">
                             {{ posts.category.all | join:", "}}
-                            {{ post.content|truncatewords:80 }}
+                            {{ post.content|truncatewords:80|safe }}
                         </p>
 
                         <a href="{% url 'blog:single' pid=post.id %}" class="btn btn-primary bold higher">ادامه مطلب</a>

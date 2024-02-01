@@ -15,7 +15,6 @@ class Post(models.Model) :
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     content = models.TextField()
-    # tag
     category = models.ManyToManyField(Category)
     counted_views = models.IntegerField(default=0)
     status = models.BooleanField(default=False)
@@ -31,3 +30,18 @@ class Post(models.Model) :
     
     class Meta:
         ordering = ('created_at',)
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    username = models.CharField(max_length=255, null=True, blank=True)
+    message = models.TextField()
+    approved = models.BooleanField(default=False)
+    created_at=models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.first_name+' '+self.last_name
