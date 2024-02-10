@@ -1,5 +1,6 @@
 ﻿{% extends "base.html" %}
 {% load blog_tags %}
+{% load store_tags %}
 {% load static %}
 {% block content %}
 
@@ -88,7 +89,7 @@
 					<!--  ==========  -->
 					<!--  = Size filter =  -->
 					<!--  ==========  -->
-					<div class="accordion-group" id="tourStep3">
+					<div class="accordion-group">
 						<div class="accordion-heading">
 							<a class="accordion-toggle collapsed" data-toggle="collapse" href="#filterTwo">سایز <b
 									class="caret"></b></a>
@@ -162,6 +163,11 @@
 							<div class="form-inline sorting-by" id="tourStep4">
 								<label for="isotopeSorting" class="black-clr">چینش :</label>
 								<select id="isotopeSorting" class="span3">
+									<option value='{"sortBy":"published_at", "sortAscending":"true"}'>بر اساس جدید ترین
+										&uarr;</option>
+									<option value='{"sortBy":"published_at", "sortAscending":"false"}'>بر اساس قدیمی
+										ترین
+										&darr;</option>
 									<option value='{"sortBy":"price", "sortAscending":"true"}'>بر اساس قیمت (کم به زیاد)
 										&uarr;</option>
 									<option value='{"sortBy":"price", "sortAscending":"false"}'>بر اساس قیمت (زیاد به
@@ -206,21 +212,37 @@
 									<div class="picture">
 										<img width="540" height="374" alt="" src="{{ product.image.url }}" />
 										<div class="img-overlay">
-											<a class="btn more btn-primary" href="{% url 'store:product' pid=product.id %}">توضیحات بیشتر</a>
+											<a class="btn more btn-primary"
+												href="{% url 'store:product' pid=product.id %}">توضیحات بیشتر</a>
+											{% if product.available == 1 %}
 											<a class="btn buy btn-danger" href="#">اضافه به سبد خرید</a>
+											{% endif %}
 										</div>
 									</div>
 								</div>
 								<div class="main-titles no-margin">
-									<h4 class="title">{{product.price}} تومان</h4>
-									<h5 class="no-margin isotope--title">{{product.name}}</h5>
+									<h1 style="font-size: medium;" class="no-margin isotope--title">{{product.name}}
+									</h1>
+									<br>
+									{% if product.price_off %}
+									<h6 style="font-size: medium; display: inline;" class="title"><del>{{product.price}}
+											تومان</del></h6>
+									<h6 style="font-size: medium; display: inline; color: green;" class="title">
+										{{product.price_off}} تومان</h6>
+									<h6
+										style="font-size: medium; display: inline; color: red; border: 3px solid red; padding-left: 3px; padding-right: 3px; border-radius: 10px; padding-top: 5px;">
+										OFF </h6>
+									{% else %}
+									<h6 style="font-size: medium;" class="title">{{product.price}} تومان</h6>
+									{% endif %}
 								</div>
 								<p class="center-align stars">
+									{% for _ in product.star|times_n %}
+									<span class="icon-star"></span>
+									{% endfor %}
+									{% for _ in product.star|times %}
 									<span class="icon-star stars-clr"></span>
-									<span class="icon-star stars-clr"></span>
-									<span class="icon-star"></span>
-									<span class="icon-star"></span>
-									<span class="icon-star"></span>
+									{% endfor %}
 								</p>
 							</div>
 						</div> <!-- /single product -->
