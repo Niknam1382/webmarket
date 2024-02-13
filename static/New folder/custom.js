@@ -600,3 +600,4 @@ jQuery(document).ready(function($) {
     //  ========== 
     $(window).trigger("scroll").trigger("resize");
 });
+

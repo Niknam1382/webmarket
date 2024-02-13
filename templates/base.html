@@ -115,8 +115,14 @@
                             </div>
 
                             <div class="register">
+                                {% if request.user.is_authenticated %}
+                                {{ request.user.get_full_name }}
+                                |
+                                <a href="{% url 'accounts:logout' %}" role="button" data-toggle="modal">خروج</a>
+                                {% else %}
                                 <a href="#loginModal" role="button" data-toggle="modal">ورود</a> یا
                                 <a href="#registerModal" role="button" data-toggle="modal">ثبت نام</a>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -127,18 +133,25 @@
 
         </header>
         {% if messages %}
-        <div
-            style="text-align: center; border: 3px solid green; border-radius: 5px; margin-left: 35px; margin-right: 35px; padding-top: 5px;">    
-            <ul class="messages">
-                {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
-                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
-                    {{ message }}
-                    </li>
-                    {% endfor %}
-            </ul>
+        <div id="myContent">
+            <div
+                style="text-align: center; border: 1px dotted #1C39BB; border-radius: 5px; margin-left: 35px; margin-right: 35px; padding-top: 5px;">    
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                        {{ message }}
+                        </li>
+                        {% endfor %}
+                </ul>
+            </div>
         </div>
         {% endif %}
+        <script>
+            setTimeout(function() {
+                document.getElementById("myContent").style.display = "none";
+            }, 10000); // 5000 میلی‌ثانیه معادل 5 ثانیه است
+        </script>
         <!--  ==========  -->
         <!--  = Main Menu / navbar =  -->
         <!--  ==========  -->
@@ -496,17 +509,18 @@
                 <h3 id="loginModalLabel"><span class="light">ورود</span> در وبمارکت</h3>
             </div>
             <div class="modal-body">
-                <form method="post" action="#">
+                <form method="POST" action="{% url 'accounts:login' %}">
+                    {% csrf_token %}
                     <div class="control-group">
                         <label class="control-label hidden shown-ie8" for="inputEmail">نام کاربری</label>
                         <div class="controls">
-                            <input type="text" class="input-block-level" id="inputEmail" placeholder="Username">
+                            <input type="text" class="input-block-level" name="username" placeholder="Username">
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label hidden shown-ie8" for="inputPassword">رمز عبور</label>
                         <div class="controls">
-                            <input type="password" class="input-block-level" id="inputPassword" placeholder="Password">
+                            <input type="password" class="input-block-level" name="password" placeholder="Password">
                         </div>
                     </div>
                     <div class="control-group">
@@ -535,27 +549,57 @@
                 <h3 id="registerModalLabel"><span class="light">عضویت</span> در وبمارکت</h3>
             </div>
             <div class="modal-body">
-                <form method="post" action="#">
+                <form method="post" action="{% url 'accounts:signup' %}">
+                    {% csrf_token %}
+
+                    <div class="control-group">
+                        <label class="control-label hidden shown-ie8" for="inputUsernameRegister">نام</label>
+                        <div class="controls">
+                            <input type="text" class="input-block-level" name="first_name" id="inputUsernameRegister"
+                                placeholder="نام">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label hidden shown-ie8" for="inputUsernameRegister">نام خانوادگی</label>
+                        <div class="controls">
+                            <input type="text" class="input-block-level" name="last_name" id="inputUsernameRegister"
+                                placeholder="نام خانوادگی">
+                        </div>
+                    </div>
+
+
                     <div class="control-group">
                         <label class="control-label hidden shown-ie8" for="inputUsernameRegister">نام کاربری</label>
                         <div class="controls">
-                            <input type="text" class="input-block-level" id="inputUsernameRegister"
-                                placeholder="Username">
+                            <input type="text" class="input-block-level" name="username" id="inputUsernameRegister"
+                                placeholder="نام کاربری">
                         </div>
                     </div>
+
                     <div class="control-group">
                         <label class="control-label hidden shown-ie8" for="inputEmailRegister">ایمیل</label>
                         <div class="controls">
-                            <input type="email" class="input-block-level" id="inputEmailRegister" placeholder="Email">
+                            <input type="email" class="input-block-level" name="email" id="inputEmailRegister" placeholder="ایمیل">
                         </div>
                     </div>
+
                     <div class="control-group">
                         <label class="control-label hidden shown-ie8" for="inputPasswordRegister">رمز عبور</label>
                         <div class="controls">
-                            <input type="password" class="input-block-level" id="inputPasswordRegister"
-                                placeholder="Password">
+                            <input type="password" class="input-block-level" name="password" id="inputPasswordRegister"
+                                placeholder="رمز ورود">
                         </div>
                     </div>
+
+                    <div class="control-group">
+                        <label class="control-label hidden shown-ie8" for="inputPasswordRegister">تکرار رمز عبور</label>
+                        <div class="controls">
+                            <input type="password" class="input-block-level" name="password2" id="inputPasswordRegister"
+                                placeholder="تکرار رمز عبور">
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-danger input-block-level bold higher">
                         عضویت
                     </button>
