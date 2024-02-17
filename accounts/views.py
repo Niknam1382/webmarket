@@ -42,7 +42,6 @@ def signup_view(request):
             email = request.POST["email"]
             password = request.POST["password"]
             password2 = request.POST["password2"]
-            print(first_name, last_name, username, email, password, password2)
             if not User.objects.filter(username=username).exists():
                 if not User.objects.filter(email=email).exists():
                     if password == password2:
