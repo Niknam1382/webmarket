@@ -127,16 +127,14 @@
 											</th>
 										</tr>
 									</thead>
-									{% for i in cart_items %}
-									{{i}}
-									{% endfor %}
 									<tbody>
+										
 										{% for i in cart_items %}
 										<tr>
-											<!-- <td class="image"><img
-													src="{{ i.image.url }}" alt=""
-													width="124" height="124" /></td> -->
-											<td class="desc">{{ i.product }} &nbsp; <a title="Remove Item"
+											<td class="image"><img
+													src="{{ i.product.image.url }}" alt=""
+													width="124" height="124" /></td>
+											<td class="desc">{{ i.product.name }} &nbsp; <a title="Remove Item"
 													class="icon-remove-sign" href="#"></a></td>
 											<td class="qty">
 												<input type="text" class="tiny-size" value="{{ i.quantity }}" />
@@ -146,61 +144,7 @@
 											</td>
 										</tr>
 										{% endfor %}
-										<!-- <tr>
-											<td class="image"><img
-													src="{% static 'images/dummy/cart-items/cart-item-2.jpg' %}" alt=""
-													width="124" height="124" /></td>
-											<td class="desc">لباس ورزشی آدیداس &nbsp; <a title="Remove Item"
-													class="icon-remove-sign" href="#"></a></td>
-											<td class="qty">
-												<input type="text" class="tiny-size" value="1" />
-											</td>
-											<td class="price">
-												$59
-											</td>
-										</tr>
-
-										<tr>
-											<td class="image"><img
-													src="{% static 'images/dummy/cart-items/cart-item-3.jpg' %}" alt=""
-													width="124" height="124" /></td>
-											<td class="desc">لباس ورزشی آدیداس &nbsp; <a title="Remove Item"
-													class="icon-remove-sign" href="#"></a></td>
-											<td class="qty">
-												<input type="text" class="tiny-size" value="2" />
-											</td>
-											<td class="price">
-												$59
-											</td>
-										</tr>
-
-										<tr>
-											<td class="image"><img
-													src="{% static 'images/dummy/cart-items/cart-item-4.jpg' %}" alt=""
-													width="124" height="124" /></td>
-											<td class="desc">لباس ورزشی آدیداس &nbsp; <a title="Remove Item"
-													class="icon-remove-sign" href="#"></a></td>
-											<td class="qty">
-												<input type="text" class="tiny-size" value="4" />
-											</td>
-											<td class="price">
-												$59
-											</td>
-										</tr>
-
-										<tr>
-											<td class="image"><img
-													src="{% static 'images/dummy/cart-items/cart-item-5.jpg' %}" alt=""
-													width="124" height="124" /></td>
-											<td class="desc">لباس ورزشی آدیداس &nbsp; <a title="Remove Item"
-													class="icon-remove-sign" href="#"></a></td>
-											<td class="qty">
-												<input type="text" class="tiny-size" value="4" />
-											</td>
-											<td class="price">
-												$59
-											</td>
-										</tr> -->
+										
 										<tr>
 											<td colspan="2" rowspan="2">
 												<div class="alert alert-info">
@@ -217,7 +161,7 @@
 										<tr>
 											<td class="stronger">جمع کل :</td>
 											<td class="stronger">
-												<div class="size-16 align-right">$357.81</div>
+												<div class="size-16 align-right">{{total_price}}</div>
 											</td>
 										</tr>
 									</tbody>

@@ -58,9 +58,11 @@ def product_views(request, pid):
 
 # @login_required
 def add_to_cart(request):
-    if request.method == 'POST':
-        product_id = request.POST["product_id"]
-        cart_item = Cart.objects.get(user=request.user, product=product_id)
+    if request.method == 'GET':
+        product_id = request.GET.get("product_id")
+        
+        cart_item = Cart.objects.get(user=request.user, pk=product_id)
+        # cart_item = get_object_or_404(Cart, user=request.user, pk=product_id)
         # print(cart_item)
         if cart_item:
             cart_item.quantity += 1
@@ -88,16 +90,12 @@ def remove_from_cart(request, cart_item_id):
 def cart_detail(request):
     cart_items = Cart.objects.filter(user=request.user)
     # item_quantity = Cart.objects.filter(user=request.user).quantity
-    # total_price = sum(item.quantity * item.product.price for item in cart_items)
-    c = 1
+    total_price = 0
     for i in cart_items:
-        i = str(i)
-        t = i.split(' ')[2]
-    print(t)
+        total_price += (i.product.price * i.quantity)
     context = {
-        # 'item_quantity':item_quantity,
         "cart_items": cart_items,
-        # "total_price": total_price,
+        "total_price": total_price,
     }
 
     return render(request, "checkout-step-1.html", context)
