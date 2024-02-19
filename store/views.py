@@ -4,6 +4,7 @@ from accounts.models import *
 from django.utils import timezone
 from django.core.paginator import (Paginator, EmptyPage, PageNotAnInteger)
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def store_views(request, **kwargs):
@@ -56,37 +57,33 @@ def product_views(request, pid):
     return render(request,'product.html', context)
 
 
-# @login_required
+@login_required
 def add_to_cart(request):
     if request.method == 'GET':
-        product_id = request.GET.get("product_id")
-        
-        cart_item = Cart.objects.get(user=request.user, pk=product_id)
-        # cart_item = get_object_or_404(Cart, user=request.user, pk=product_id)
-        # print(cart_item)
+        product_id = int(request.GET.get("product_id"))
+        prod = product.objects.get(pk=product_id)
+        cart_item = None
+        try:
+            cart_item = Cart.objects.get(user=request.user, product=prod)
+        except:
+            pass
         if cart_item:
             cart_item.quantity += 1
             cart_item.save()
-            # messages.success(request, "Item added to your cart.")
-            messages.add_message(request, messages.SUCCESS,"محصول مورد نظر به سبد خرید شما اضافه شد")
         else:
-            Cart.objects.create(user=request.user, product=product_id)
-            messages.add_message(request, messages.SUCCESS,"محصول مورد نظر به سبد خرید شما اضافه شد")
-
+            cart_item = Cart.objects.create(user=request.user, product=prod)
     return redirect('/store')
 
-# @login_required
-'''
+@login_required
 def remove_from_cart(request, cart_item_id):
     cart_item = get_object_or_404(Cart, id=cart_item_id)
-
     if cart_item.user == request.user:
         cart_item.delete()
         messages.success(request, "Item removed from your cart.")
 
     return redirect("cart:cart_detail")
-'''
-# @login_required
+
+@login_required
 def cart_detail(request):
     cart_items = Cart.objects.filter(user=request.user)
     # item_quantity = Cart.objects.filter(user=request.user).quantity
@@ -99,41 +96,3 @@ def cart_detail(request):
     }
 
     return render(request, "checkout-step-1.html", context)
-
-
-'''
-def add_to_cart(request):
-    product_ids = request.session.get('product_ids', {})  # Retrieve product_ids from session
-    print(product_ids)
-    if request.method == 'GET':
-        pid = request.GET.get("pid")
-        prod = get_object_or_404(product, status=True, pk=pid)
-        if str(prod.id) not in product_ids:
-            product_ids[str(prod.id)] = 1
-        else:
-            product_ids[str(prod.id)] += 1
-        print(product_ids)
-        
-
-        request.session['prods'] = product_ids
-        # if 'cart' not in request.session:
-        #     request.session['cart'] = {}
-        # request.session['cart'].extend(product_ids)
-    return redirect('/store')
-
-def view_cart(request):
-    my_data = request.session.get('prods', {})
-    cart_products = dict()
-    for i in my_data.keys():
-        cart_products[get_object_or_404(product, status=True, pk=i)] = my_data[i]
-    # cart_products = product.objects.filter(id__in=my_data)
-    # cart_product_ids = request.session.get('cart', [])
-    # cart_products = product.objects.filter(id__in=cart_product_ids)
-    return render(request, 'checkout-step-1.html', {'cart_products': cart_products})
-
-def remove_from_cart(request, product_id):
-    product = get_object_or_404(product, pk=product_id)
-    if 'cart' in request.session:
-        request.session['cart'].remove(product.id)
-    return redirect('/store')
-'''

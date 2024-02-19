@@ -135,7 +135,7 @@
 													src="{{ i.product.image.url }}" alt=""
 													width="124" height="124" /></td>
 											<td class="desc">{{ i.product.name }} &nbsp; <a title="Remove Item"
-													class="icon-remove-sign" href="#"></a></td>
+													class="icon-remove-sign" href="{% url 'store:remove_from_cart' product_id=i.id %}"></a></td>
 											<td class="qty">
 												<input type="text" class="tiny-size" value="{{ i.quantity }}" />
 											</td>
