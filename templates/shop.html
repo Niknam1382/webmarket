@@ -215,7 +215,7 @@
 											<a class="btn more btn-primary"
 												href="{% url 'store:product' pid=product.id %}">توضیحات بیشتر</a>
 												{% if product.available == 1 %}
-												<form action="{% url 'store:add_to_cart' cart_item_id=product.id %}" method="GET">
+												<form action="{% url 'store:add_to_cart' %}" method="GET">
 													
 													<input type="hidden" name="product_id" value="{{product.id}}">
 													<button type="submit" class="btn buy btn-danger">اضافه به سبد خرید</button>

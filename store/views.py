@@ -76,12 +76,12 @@ def add_to_cart(request):
 
 @login_required
 def remove_from_cart(request, cart_item_id):
-    cart_item = get_object_or_404(Cart, id=cart_item_id)
+    cart_item = get_object_or_404(Cart, id=int(cart_item_id))
     if cart_item.user == request.user:
         cart_item.delete()
-        messages.success(request, "Item removed from your cart.")
+        messages.add_message(request, messages.SUCCESS,"محصول با موفقیت از سبد خرید شما حذف شد")
 
-    return redirect("cart:cart_detail")
+    return redirect('/store/cart_detail')
 
 @login_required
 def cart_detail(request):
@@ -96,3 +96,5 @@ def cart_detail(request):
     }
 
     return render(request, "checkout-step-1.html", context)
+
+
