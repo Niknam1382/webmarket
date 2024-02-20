@@ -50,9 +50,6 @@ def product_views(request, pid):
     prodc = product.objects.filter(category__name=cat)
     prod.counted_views += 1
     prod.save()
-    '''
-    request.session['product_ids'] = {}
-    '''
     context = {'prod':prod, 'prodc':prodc}
     return render(request,'product.html', context)
 
@@ -70,6 +67,7 @@ def add_to_cart(request):
         if cart_item:
             cart_item.quantity += 1
             cart_item.save()
+            messages.add_message(request, messages.SUCCESS,"محصول به سبد شما اضافه شد")
         else:
             cart_item = Cart.objects.create(user=request.user, product=prod)
     return redirect('/store')
@@ -86,7 +84,6 @@ def remove_from_cart(request, cart_item_id):
 @login_required
 def cart_detail(request):
     cart_items = Cart.objects.filter(user=request.user)
-    # item_quantity = Cart.objects.filter(user=request.user).quantity
     total_price = 0
     for i in cart_items:
         total_price += (i.product.price * i.quantity)
@@ -97,4 +94,17 @@ def cart_detail(request):
 
     return render(request, "checkout-step-1.html", context)
 
+def cart_refresh(request):
+    if request.method == 'GET':
+        cart_items = Cart.objects.filter(user=request.user)
+        for i in cart_items:
+            p = 'p' + str(i.id)
+            prod = request.GET.get(p)
+            cart_item = Cart.objects.get(user=request.user, pk=prod)
+            x = 'n' + str(i.id)
+            n = request.GET.get(x)
+            cart_item.quantity = n
+            cart_item.save()
+        messages.add_message(request, messages.SUCCESS,"تازه سازی سبد خرید شما با موفقیت انجام شد")
 
+    return redirect('/store/cart_detail')

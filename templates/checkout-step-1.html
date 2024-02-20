@@ -50,7 +50,28 @@
 <body class=" checkout-page">
 
 	<div class="master-wrapper">
-
+		
+		{% if messages %}
+        <div id="myContent">
+			<!-- Style the button and choose the appropriate class for the div. Styles are available online -->
+            <div class="span12"
+                style="text-align: center; border: 2px solid yellow; border-radius: 5px; margin-left: 35px; margin-right: 35px; padding-top: 5px;">    
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+                        {{ message }}
+                        </li>
+                        {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+        <script>
+            setTimeout(function() {
+                document.getElementById("myContent").style.display = "none";
+            }, 10000); // 5000 میلی‌ثانیه معادل 5 ثانیه است
+        </script>
 
 
 		<div class="container">
@@ -128,7 +149,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										
+										<form action="{% url 'store:cart_refresh' %}" method="get">
 										{% for i in cart_items %}
 										<tr>
 											<td class="image"><img
@@ -137,14 +158,16 @@
 											<td class="desc">{{ i.product.name }} &nbsp; <a title="Remove Item"
 													class="icon-remove-sign" href="{% url 'store:remove_from_cart' cart_item_id=i.id %}"></a></td>
 											<td class="qty">
-												<input type="text" class="tiny-size" value="{{ i.quantity }}" />
+												<input type="number" min="1" style="width: min-content;" name="n{{i.id}}" value="{{ i.quantity }}" />
+												<input type="hidden" name="p{{i.id}}" value="{{ i.id }}" />
 											</td>
 											<td class="price">
 												{{ i.product.price }}
 											</td>
 										</tr>
 										{% endfor %}
-										
+										<button type="submit" style="background-color: aliceblue;">cart_refresh</button>
+										</form>
 										<tr>
 											<td colspan="2" rowspan="2">
 												<div class="alert alert-info">

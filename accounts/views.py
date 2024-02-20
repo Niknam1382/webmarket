@@ -49,7 +49,7 @@ def signup_view(request):
                         user.save()
                         messages.add_message(request, messages.SUCCESS, f"{first_name} حساب کاربری شما با موفقیت ایجاد شد")
                         login(request, user)
-
+                        
                         subject = 'به وب مارکت خوش آمدید'
                         message = f'سلام {first_name}. ثبت نام شما در وب مارکت با موفقیت انجام شد'
                         email_from = settings.EMAIL_HOST_USER
