@@ -42,3 +42,13 @@ class product(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     star = models.IntegerField(null=True, blank=True) 
     brand = models.ForeignKey(brand, on_delete=models.CASCADE, null=True, blank=True)
+
+class Cart_Detail2(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    phone_number = models.IntegerField()
+    email = models.EmailField()
+    city = models.CharField(max_length=255)
+    address1 = models.TextField()
+    address2 = models.TextField(null=True, blank=True)
+    code_posti = models.IntegerField()

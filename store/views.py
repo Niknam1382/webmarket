@@ -5,9 +5,10 @@ from django.utils import timezone
 from django.core.paginator import (Paginator, EmptyPage, PageNotAnInteger)
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from store.forms import CartD2Form
 
 # Create your views here.
-def store_views(request, **kwargs):
+def store_views(request):
     now = timezone.now()
     products = product.objects.filter(status=True).exclude(published_at__gt=now).order_by('-published_at')
     categories = Category.objects.all()
@@ -25,7 +26,7 @@ def store_views(request, **kwargs):
     context = {'products': products, 'categories': categories, 'brands': brands, 'sizes': sizes, 'colors':colors}
     return render(request,'shop.html', context)
 
-def category_views(request, cat_name, **kwargs):
+def category_views(request, cat_name):
     now = timezone.now()
     products = product.objects.filter(status=True, category__name=cat_name).exclude(published_at__gt=now).order_by('-published_at')
     categories = Category.objects.all()
@@ -108,3 +109,20 @@ def cart_refresh(request):
         messages.add_message(request, messages.SUCCESS,"تازه سازی سبد خرید شما با موفقیت انجام شد")
 
     return redirect('/store/cart_detail')
+
+def cart_detail2(request):
+    if request.method == 'POST':
+        form = CartD2Form(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS,"صحیح")
+            return redirect('/store/cart_detail_3')
+        else:
+            messages.add_message(request, messages.SUCCESS,"غلط")
+    form = CartD2Form()
+    return render(request,"checkout-step-2.html", {'form': form})
+
+def cart_detail3(request):
+    if request.method == 'POST':
+        print('Request')
+    return render(request,"checkout-step-3.html")
