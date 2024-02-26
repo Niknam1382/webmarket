@@ -114,57 +114,33 @@
                                 <!--  ==========  -->
                                 <!--  = Payment =  -->
                                 <!--  ==========  -->
-                                <span class="btn btn-danger circle pull-left"><i class="icon-chevron-down"></i></span>
-                                <div class="shifted-left-45 clearfix">
-                                    
 
+                                <div class="shifted-left-45 clearfix">
                                     <form action="#" method="post" class="form-horizontal form-checkout">
-                                        <h3 class="no-margin"><span class="light">کارت</span>(پرداخت اینترنتی) اعتباري</h3>
-                                        <input type="radio" id="option1" name="options" value="option1">
-                                        <label for="option1">گزینه غیر فعال است البته درستش میکنم با درگاه پرداخت تستی</label>
+                                        {% csrf_token %}
+                                        <h3 class="no-margin"><span class="light">کارت اعتباري (پرداخت اینترنتی)</span>
+                                        </h3>
+                                        <input type="radio" id="option1" name="options" value="online" required="">
+                                        <p style="text-align: center;">گزینه غیر فعال است البته درستش میکنم با درگاه
+                                            پرداخت تستی</p>
                                         <hr />
                                         <h3 class="no-margin"><span class="light">پرداخت</span> درب منزل</h3>
-                                        <input type="radio" id="option2" name="options" value="option2">
-                                        <!-- <label for="option2">گزینه 2</label> -->
-                                    </form>
+                                        <input type="radio" id="option2" name="options" value="offline">
                                 </div>
-
                                 <hr />
-
-                                <span class="btn btn-danger circle pull-left"><i class="icon-chevron-right"></i></span>
-                                <div class="shifted-left-45 clearfix">
-                                    <h3 class="no-margin">
-                                        <span class="light">پي پل</span> &nbsp; &nbsp; &nbsp;
-                                        <a href="#"><img src="{% static 'images/buttons/paypal.gif' %}" alt="PayPal"
-                                                width="145" height="42" /></a>
-                                    </h3>
-                                </div>
-
-                                <hr />
-
                                 <p class="right-align">
                                     در مرحله بعدي شما قادر هستيد سفارشتان را بازبيني کرده و آن را تاييد کنيد &nbsp;
                                     &nbsp;
-                                    <a href="checkout-step-4.html " class="btn btn-primary higher bold">ادامه</a>
+                                    <button class="btn btn-primary higher bold">ادامه</button>
                                 </p>
-
-
+                                </form>
                             </div>
                         </div>
                     </div>
-
-
                 </section> <!-- /main content -->
-
             </div>
         </div> <!-- /container -->
-
-
-
-
     </div> <!-- end of master-wrapper -->
-
-
 
     <!--  ==========  -->
     <!--  = JavaScript =  -->

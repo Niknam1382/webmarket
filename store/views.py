@@ -114,7 +114,24 @@ def cart_detail2(request):
     if request.method == 'POST':
         form = CartD2Form(request.POST)
         if form.is_valid():
+            data = form.cleaned_data
             form.save()
+            first_name = data['first_name']
+            last_name = data['last_name']
+            phone_number = data['phone_number']
+            city = data['city']
+            email = data['email']
+            address1 = data['address1']
+            address2 = data['address2']
+            code_posti = data['code_posti']
+            request.session['first_name'] = first_name
+            request.session['last_name'] = last_name
+            request.session['phone_number'] = phone_number
+            request.session['city'] = city
+            request.session['email'] =email
+            request.session['address1'] = address1
+            request.session['address2'] = address2
+            request.session['code_posti'] = code_posti
             messages.add_message(request, messages.SUCCESS,"صحیح")
             return redirect('/store/cart_detail_3')
         else:
@@ -124,5 +141,55 @@ def cart_detail2(request):
 
 def cart_detail3(request):
     if request.method == 'POST':
-        print('Request')
+        options = request.POST['options']
+        request.session['options'] = options
+        return redirect('/store/cart_detail_4')
     return render(request,"checkout-step-3.html")
+
+def cart_detail4(request):
+    cart_items = Cart.objects.filter(user=request.user)
+    total_price = 0
+    for i in cart_items:
+        total_price += (i.product.price * i.quantity)
+    first_name = request.session.get('first_name')
+    last_name = request.session.get('last_name') 
+    phone_number = request.session.get('phone_number')
+    city = request.session.get('city')
+    email = request.session.get('email')
+    address1 = request.session.get('address1')
+    address2 = request.session.get('address2')
+    code_posti = request.session.get('code_posti')
+    options = request.session.get('options')
+    if options == 'offline':
+        cart = Cart.objects.filter(user = request.user)
+        c = RegisteredCart()
+        c.user = request.user
+        c.first_name = first_name
+        c.last_name = last_name
+        c.phone_number = phone_number
+        c.city = city
+        c.email = email
+        c.address1 = address1
+        c.address2 = address2
+        c.code_posti = code_posti
+
+        for single_cart in cart:
+            c.cart = single_cart
+            single_cart.product.inventory -= single_cart.quantity
+            if single_cart.product.inventory < 0:
+                messages.add_message(request, messages.warning,"برای اطلاع از تعداد موجودی تماس بگیرید")
+            else:
+                single_cart.product.save()
+        c.save()
+        messages.add_message(request, messages.SUCCESS,"سفارش شما در صف بررسی قرار رفت و نتیجه ی آن به شما ارسال میشود")
+        return redirect('/')
+
+    elif options == 'online':
+        pass
+    else:
+        pass
+    context = {
+        "cart_items": cart_items,
+        "total_price": total_price,
+    }
+    return render(request,"checkout-step-4.html", context)

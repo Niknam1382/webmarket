@@ -15,3 +15,15 @@ class Cart(models.Model):
 
     def get_absolute_url(self):
         return reverse("store:cart_detail")
+
+class RegisteredCart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    phone_number = models.IntegerField()
+    email = models.EmailField()
+    city = models.CharField(max_length=255)
+    address1 = models.TextField()
+    address2 = models.TextField(null=True, blank=True)
+    code_posti = models.IntegerField()
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)

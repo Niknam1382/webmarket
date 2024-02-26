@@ -42,6 +42,7 @@ class product(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     star = models.IntegerField(null=True, blank=True) 
     brand = models.ForeignKey(brand, on_delete=models.CASCADE, null=True, blank=True)
+    inventory = models.PositiveIntegerField(null=True, blank=True)
 
 class Cart_Detail2(models.Model):
     first_name = models.CharField(max_length=255)
