@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .profile {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.edit-form {
+  display: none;
+  margin-top: 20px;
+}
+
+.edit-form h3 {
+  text-align: left;
+}
+
+.edit-form form {
+  text-align: left;
+}
+
+.edit-info-button {
+  margin-top: 10px;
+  cursor: pointer;
+}
+    </style>
+</head>
+<body>
+    <div class="profile">
+        <img id="profile-picture" src="default.jpg" alt="User Picture">
+        <h2 class="username">John Doe</h2>
+        <div class="info">
+          <p><strong>First Name:</strong> <span id="first-name">John</span></p>
+          <p><strong>Last Name:</strong> <span id="last-name">Doe</span></p>
+          <p><strong>Email:</strong> <span id="email">johndoe@example.com</span></p>
+          <p><strong>Phone:</strong> <span id="phone">123-456-7890</span></p>
+          <p><strong>Username:</strong> <span id="username">johndoe123</span></p>
+        </div>
+        <button class="change-password-button">Change Password</button>
+        <button class="edit-info-button">Edit Information</button>
+        <input type="file" id="profile-picture-input" accept="image/*">
+        <button class="upload-picture-button">Upload Picture</button>
+    
+        <!-- Edit Information Form -->
+        <div class="edit-form">
+          <h3>Edit Information</h3>
+          <form id="edit-form">
+            <label for="edit-first-name">First Name:</label>
+            <input type="text" id="edit-first-name" name="edit-first-name">
+    
+            <label for="edit-last-name">Last Name:</label>
+            <input type="text" id="edit-last-name" name="edit-last-name">
+    
+            <label for="edit-email">Email:</label>
+            <input type="email" id="edit-email" name="edit-email">
+    
+            <label for="edit-phone">Phone:</label>
+            <input type="tel" id="edit-phone" name="edit-phone">
+    
+            <label for="edit-username">Username:</label>
+            <input type="text" id="edit-username" name="edit-username">
+    
+            <input type="submit" value="Save Changes">
+          </form>
+        </div>
+      </div>
+      <script src="script.js"></script>
+</body>
+</html>

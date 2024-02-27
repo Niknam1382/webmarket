@@ -172,7 +172,6 @@ def cart_detail4(request):
         c.address1 = address1
         c.address2 = address2
         c.code_posti = code_posti
-
         for single_cart in cart:
             c.cart = single_cart
             single_cart.product.inventory -= single_cart.quantity
@@ -181,6 +180,24 @@ def cart_detail4(request):
             else:
                 single_cart.product.save()
         c.save()
+
+        subject = 'اطلاعیه سفارش آفلاین'
+        txt1 = f'سفارش دهنده : {first_name} {last_name}'
+        txt2 = f'نام کاربری : {request.user}'
+        txt3 = f'{email} - {city}'
+        txt4 = f'{phone_number}'
+        txt5 = f'{address1}'
+        txt6 = f'{address2}'
+        txt7 = f'کد پستی : {code_posti}'
+        # txt8 = f'{options}'
+        # txt9 = f'{options.name} - test'
+        txt = f'{txt1}\n{txt2}\n{txt3}\n{txt4}\n{txt5}\n{txt6}\n{txt7}'
+
+        message = txt
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = ['nik.webmarket@gmail.com', ]
+        send_mail( subject, message, email_from, recipient_list )
+
         messages.add_message(request, messages.SUCCESS,"سفارش شما در صف بررسی قرار رفت و نتیجه ی آن به شما ارسال میشود")
         return redirect('/')
 

@@ -128,3 +128,8 @@ def change_view(request):
         else:
             messages.add_message(request, messages.WARNING,"کد بازیابی اشتباه است")
     return render(request, 'change.html')
+
+def profile_view(request):
+    return render(request, 'profile/profile.html')
+def edit_view(request):
+    return render(request, 'profile/edit.html')

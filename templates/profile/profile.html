@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پروفایل کاربری</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .profile {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px #000;
+        }
+
+        .username {
+            color: #ff4500;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .info p {
+            margin: 5px 0;
+        }
+
+        .change-password-button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body class="body">
+    <div class="profile">
+        <img id="profile-picture" src="default.jpg" alt="User Picture">
+        <h2 class="username">John Doe</h2>
+        <div class="info">
+          <p><strong>First Name:</strong> <span id="first-name">John</span></p>
+          <p><strong>Last Name:</strong> <span id="last-name">Doe</span></p>
+          <p><strong>Email:</strong> <span id="email">johndoe@example.com</span></p>
+          <p><strong>Phone:</strong> <span id="phone">123-456-7890</span></p>
+          <p><strong>Username:</strong> <span id="username">johndoe123</span></p>
+        </div>
+        <button class="change-password-button">Change Password</button>
+        <button class="edit-info-button">Edit Information</button>
+        <input type="file" id="profile-picture-input" accept="image/*">
+        <button class="upload-picture-button">Upload Picture</button>
+      </div>
+      <script src="{% static 'profile/script.js' %}"></script>
+</body>
+
+</html>

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django_summernote',
     'store',
     'accounts',
+    'zarinpal',
 ]
 
 MIDDLEWARE = [
