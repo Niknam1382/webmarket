@@ -10,5 +10,5 @@ urlpatterns = [
     path('reset', reset_view, name='reset'),
     path('change', change_view, name='change'),
     path('profile', profile_view, name='profile'),
-    path('edit', edit_view, name='edit'),
+    path('change2', change_2, name='change2'),
 ]

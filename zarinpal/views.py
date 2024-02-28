@@ -18,7 +18,7 @@ amount = 1000  # Rial / Required
 description = "توضیحات مربوط به تراکنش را در این قسمت وارد کنید"  # Required
 phone = 'YOUR_PHONE_NUMBER'  # Optional
 # Important: need to edit for realy server.
-CallbackURL = 'http://127.0.0.1:8080/verify/'
+CallbackURL = 'http://127.0.0.1:8080/zarinpal/verify/'  ### zarinpal/ add
 
 
 def send_request(request):

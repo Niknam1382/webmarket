@@ -116,6 +116,8 @@
 
                             <div class="register">
                                 {% if request.user.is_authenticated %}
+                                <a href="{% url 'accounts:profile' %}" style="text-decoration: none; color: #1C39BB;" role="button" data-toggle="modal">پروفایل کاربری</a>
+                                |
                                 {{ request.user.get_full_name }}
                                 |
                                 <a href="{% url 'accounts:logout' %}" role="button" data-toggle="modal">خروج</a>

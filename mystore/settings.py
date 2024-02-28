@@ -149,3 +149,12 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'nik.webmarket@gmail.com'
 EMAIL_HOST_PASSWORD = 'zsum tjro jcli pnvw'
+
+
+
+
+
+
+MERCHANT = "12345678-1234-1234-1234-123456789101"
+
+SANDBOX = True

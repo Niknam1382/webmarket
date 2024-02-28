@@ -27,3 +27,10 @@ class RegisteredCart(models.Model):
     address2 = models.TextField(null=True, blank=True)
     code_posti = models.IntegerField()
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+
+class profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(null=True, blank=True, upload_to='profile', default='images/default.jpg')
+
+    def __str__(self):
+        return self.user.username

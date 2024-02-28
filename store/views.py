@@ -6,6 +6,8 @@ from django.core.paginator import (Paginator, EmptyPage, PageNotAnInteger)
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from store.forms import CartD2Form
+from django.conf import settings
+from django.core.mail import send_mail
 
 # Create your views here.
 def store_views(request):
@@ -147,6 +149,11 @@ def cart_detail3(request):
     return render(request,"checkout-step-3.html")
 
 def cart_detail4(request):
+    t = False
+    if request.method == 'POST':
+        confirm = request.POST['confirm']
+        if confirm == 'confirm':
+            t = True
     cart_items = Cart.objects.filter(user=request.user)
     total_price = 0
     for i in cart_items:
@@ -172,35 +179,42 @@ def cart_detail4(request):
         c.address1 = address1
         c.address2 = address2
         c.code_posti = code_posti
+        x = True
+        l = []
         for single_cart in cart:
             c.cart = single_cart
             single_cart.product.inventory -= single_cart.quantity
             if single_cart.product.inventory < 0:
-                messages.add_message(request, messages.warning,"برای اطلاع از تعداد موجودی تماس بگیرید")
-            else:
-                single_cart.product.save()
-        c.save()
+                x = False
+            l.append((single_cart.product.name,single_cart.quantity))
+        if x is False:
+            messages.add_message(request, messages.warning,"برای اطلاع از تعداد موجودی تماس بگیرید")
+        else:
+            single_cart.product.save()
+            c.save()
 
-        subject = 'اطلاعیه سفارش آفلاین'
-        txt1 = f'سفارش دهنده : {first_name} {last_name}'
-        txt2 = f'نام کاربری : {request.user}'
-        txt3 = f'{email} - {city}'
-        txt4 = f'{phone_number}'
-        txt5 = f'{address1}'
-        txt6 = f'{address2}'
-        txt7 = f'کد پستی : {code_posti}'
-        # txt8 = f'{options}'
-        # txt9 = f'{options.name} - test'
-        txt = f'{txt1}\n{txt2}\n{txt3}\n{txt4}\n{txt5}\n{txt6}\n{txt7}'
-
-        message = txt
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = ['nik.webmarket@gmail.com', ]
-        send_mail( subject, message, email_from, recipient_list )
-
-        messages.add_message(request, messages.SUCCESS,"سفارش شما در صف بررسی قرار رفت و نتیجه ی آن به شما ارسال میشود")
-        return redirect('/')
-
+            subject = 'اطلاعیه سفارش آفلاین'
+            txt1 = f'سفارش دهنده : {first_name} {last_name}'
+            txt2 = f'نام کاربری : {request.user.username}'
+            txt3 = f'{email} - {city}'
+            txt4 = f'{phone_number}'
+            txt5 = f'{address1}'
+            txt6 = f'{address2}'
+            txt7 = f'کد پستی : {code_posti}'
+            txt8 = ''
+            for i in l:
+                txt8 += f'{i[0]} - {i[1]}\n'
+                
+            txt = f'{txt1}\n{txt2}\n{txt3}\n{txt4}\n{txt5}\n{txt6}\n{txt7}\n{txt8}'
+            if t is True:
+                message = txt
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = ['nik.webmarket@gmail.com', ]
+                send_mail( subject, message, email_from, recipient_list )
+                messages.add_message(request, messages.SUCCESS,"سفارش شما در صف بررسی قرار رفت و نتیجه ی آن به شما ارسال میشود")
+                cart.delete()
+                return redirect('/')
+        
     elif options == 'online':
         pass
     else:

@@ -22,7 +22,7 @@
             background-color: #fff;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 5);
         }
 
         .profile-picture {
@@ -46,6 +46,7 @@
 
         .info p {
             margin: 5px 0;
+            text-align: right;
         }
 
         .change-password-button {
@@ -57,26 +58,57 @@
             font-size: 16px;
             border-radius: 5px;
         }
+
+        .imgp {
+            border: 1px solid black;
+            border-radius: 50%;
+            height: 10em;
+            width: 10em;
+        }
+
+        .b {
+            border: 1px solid black;
+            border-radius: 10px;
+            padding: 5px;
+            margin: 15px;
+            box-shadow: 0 0 3px #000;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .btn {
+            border: 2px solid blue !important;
+            border-radius: 5px !important;
+        }
     </style>
 </head>
 
 <body class="body">
-    <div class="profile">
-        <img id="profile-picture" src="default.jpg" alt="User Picture">
-        <h2 class="username">John Doe</h2>
-        <div class="info">
-          <p><strong>First Name:</strong> <span id="first-name">John</span></p>
-          <p><strong>Last Name:</strong> <span id="last-name">Doe</span></p>
-          <p><strong>Email:</strong> <span id="email">johndoe@example.com</span></p>
-          <p><strong>Phone:</strong> <span id="phone">123-456-7890</span></p>
-          <p><strong>Username:</strong> <span id="username">johndoe123</span></p>
+    <form action="{% url 'accounts:profile' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="profile">
+            {% if image %}
+            <img id="profile-picture" class="imgp" src="{{image.url}}" alt="User Picture">
+            {% else %}
+            <img id="profile-picture" class="imgp" src="{% static 'images/default.jpg' %}" alt="User Picture">
+            {% endif %}
+            <!-- <img id="profile-picture" src="default.jpg" alt="User Picture"> -->
+            <h2 class="username">{{user.first_name}} {{user.last_name}}</h2>
+            <div class="info">
+                <p class="b"><strong>نام : </strong> <span id="first-name">{{user.first_name}}</span></p>
+                <p class="b"><strong>نام خانوادگی : </strong> <span id="last-name">{{user.last_name}}</span></p>
+                <p class="b"> <span id="username">{{user.username}}</span><strong> : نام کاربری </strong></p>
+                <p class="b"> <span id="email">{{user.email}}</span><strong> : ایمیل</strong></p>
+            </div>
+            <a class="change-password-button" href="{% url 'accounts:change2' %}">تغییر رمز عبور</a>
+
+            <input type="file" name="image" id="profile-picture-input" required>
+            <button class="upload-picture-button btn">آپلود عکس پروفایل</button>
         </div>
-        <button class="change-password-button">Change Password</button>
-        <button class="edit-info-button">Edit Information</button>
-        <input type="file" id="profile-picture-input" accept="image/*">
-        <button class="upload-picture-button">Upload Picture</button>
-      </div>
-      <script src="{% static 'profile/script.js' %}"></script>
+        <script src="{% static 'profile/script.js' %}"></script>
+    </form>
 </body>
 
 </html>

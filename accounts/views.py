@@ -9,6 +9,8 @@ import random
 import string
 import re
 from django.http import HttpResponse
+from accounts.forms import ProfileForm
+from accounts.models import profile
 
 # Create your views here.
 def login_view(request):
@@ -130,6 +132,50 @@ def change_view(request):
     return render(request, 'change.html')
 
 def profile_view(request):
-    return render(request, 'profile/profile.html')
-def edit_view(request):
-    return render(request, 'profile/edit.html')
+    try:
+        user = profile.objects.get(user=request.user)
+        if request.method == 'POST':
+            form = ProfileForm(request.POST, request.FILES)
+            if form.is_valid():
+                image =  form.cleaned_data["image"]            
+                user.image = image
+                x = user.image
+                user.save()
+                return redirect('/')
+        else:
+            form = ProfileForm()
+        x = user.image
+        user = User.objects.get_or_create(username=request.user)
+    except:
+        user = profile.objects.create(user=request.user)
+        if request.method == 'POST':
+            form = ProfileForm(request.POST, request.FILES)
+            if form.is_valid():
+                image =  form.cleaned_data["image"]            
+                user.image = image
+                x = user.image
+                user.save()
+                return redirect('/')
+        else:
+            form = ProfileForm()
+        x = user.image
+        print(x)
+    user = User.objects.get(username=request.user)
+    return render(request, 'profile/profile.html', {'user': user, 'form': form, 'image': x})
+
+def change_2(request):
+    if request.method == 'POST':
+        password1 = request.POST['password']
+        password2 = request.POST['password2']
+        if password1 == password2:
+            user_email = request.session.get('email')
+            print(user_email)
+            user = User.objects.get(email=user_email)
+            user.set_password(password2)
+            user.save()
+            messages.add_message(request, messages.SUCCESS,"تغییر کلمه ی عبور شما با موفقیت انجام شد")
+            return redirect('/')
+        else:
+            messages.add_message(request, messages.WARNING,"کلمه های عبور شما مطابقت ندارد")
+
+    return render(request, 'change2.html')

@@ -160,6 +160,7 @@
 								<p class="right-align">
 								<form action="{% url 'store:cart_detail4' %}" method="post">
 									{% csrf_token %}
+									<input type="hidden" name="confirm" value="confirm">
 									<button type="submit" class="btn btn-primary higher bold">ثبت سفارش</button>
 									<!-- <a href="index.html" class="btn btn-primary higher bold">ثبت سفارش</a> -->
 									</p>
