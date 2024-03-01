@@ -216,7 +216,8 @@ def cart_detail4(request):
                 return redirect('/')
         
     elif options == 'online':
-        pass
+        if t is True:
+            return redirect('http://127.0.0.1:8000/zarinpal/request/')
     else:
         pass
     context = {

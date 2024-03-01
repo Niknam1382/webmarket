@@ -1,6 +1,10 @@
 from django.shortcuts import render, HttpResponseRedirect
 from website.forms import *
 from django.contrib import messages
+from website.models import News
+
+from django.conf import settings
+from django.core.mail import send_mail
 
 # Create your views here.
 def index(request) :
@@ -21,3 +25,24 @@ def contact(request) :
             form.save()
     form = ContactForm()
     return render(request, 'contact.html')
+
+def SendEmail(request):
+    if request.method == 'POST' :
+        subject = request.POST['sbject']
+        content = request.POST['content']
+
+        x = News.objects.create(send=True)
+        x.subject = subject
+        x.content = content
+        x.save()
+
+        message = content
+        email_from = settings.EMAIL_HOST_USER
+        n = Newsletters.objects.all()
+        recipient_list = ['nik.webmarket@gmail.com', ]
+        for i in n :
+            i = str(i)
+            i = i.split(' - ')[0]
+            recipient_list.append(i)
+        send_mail( subject, message, email_from, recipient_list )
+    return render(request, 'news.html')

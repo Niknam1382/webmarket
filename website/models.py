@@ -24,3 +24,15 @@ class ContactForm(models.Model):
 
     def __str__ (self) :
         return '{} - {}'.format(self.last_name, self.subject)
+    
+class News(models.Model):
+    subject = models.CharField(max_length=255)
+    content = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    send = models.BooleanField(default=0)
+
+    class Meta :
+        ordering = ['-date']
+
+    def __str__ (self) :
+        return self.subject

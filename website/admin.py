@@ -10,3 +10,4 @@ class ContactAdmin(admin.ModelAdmin):
     
 admin.site.register(ContactForm,ContactAdmin)
 admin.site.register(Newsletters)
+admin.site.register(News)
