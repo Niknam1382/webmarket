@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'store',
     'accounts',
     'zarinpal',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [

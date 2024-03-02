@@ -159,7 +159,8 @@
 												</td>
 												<td class="qty">
 													<input type="number" min="1" style="width: min-content;"
-														name="n{{i.id}}" value="{{ i.quantity }}" max="{{i.product.inventory}}" />
+														name="n{{i.id}}" value="{{ i.quantity }}"
+														max="{{i.product.inventory}}" />
 													<input type="hidden" name="p{{i.id}}" value="{{ i.id }}" />
 												</td>
 												<td class="price">
@@ -168,8 +169,10 @@
 											</tr>
 											{% endfor %}
 											<div style="text-align: center;">
-											<button type="submit"
-												style="background-color: white; padding: 10px; border-radius: 10px;">تازه سازی سبد خرید</button></div>
+												<button type="submit"
+													style="background-color: white; padding: 10px; border-radius: 10px;">تازه
+													سازی سبد خرید</button>
+											</div>
 										</form>
 										<tr>
 											<td colspan="2" rowspan="2">
@@ -194,11 +197,17 @@
 								</table>
 
 								<hr />
-
+								{% if total_price %}
 								<p class="right-align">
 									در مرحله بعدی شما آدرس ارسال را انتخاب خواهید کرد. &nbsp; &nbsp;
-									<a href="{% url 'store:cart_detail2' %}" class="btn btn-primary higher bold">ادامه</a>
+									<a href="{% url 'store:cart_detail2' %}"
+										class="btn btn-primary higher bold">ادامه</a>
 								</p>
+								{% else %}
+								<p class="right-align" style="font-size: larger; color: red;">
+								 شما که محصولی در سبد خرید ندارید دوست عزیز !&nbsp; &nbsp;
+								</p>
+								{% endif %}
 							</div>
 						</div>
 					</div>

@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
-from blog.models import Post
+from blog.models import Post, Comment
 from django.utils import timezone
 from django.core.paginator import (Paginator, EmptyPage, PageNotAnInteger)
+from django.contrib import messages
+from blog.forms import CommentForm
 
 # Create your views here.
 def blog_home(request, **kwargs) :
@@ -21,10 +23,20 @@ def blog_home(request, **kwargs) :
     return render(request, 'blog.html', context)
 
 def blog_single(request,pid) :
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request,messages.SUCCESS, 'کامنت شما در صف بررسی قرار گرفت')
+        else:
+            messages.add_message(request,messages.ERROR, 'کامنت شما ثبت نشد')
+
     post = get_object_or_404(Post, pk=pid, status=True)
+    comments = Comment.objects.filter(post=post.id, approved=True)
     post.counted_views += 1
     post.save()
-    context = {'post': post}
+    context = {'post': post, 'comments': comments}
     return render(request, 'blog-single.html', context)
 
 def blog_category(request, cat_name):

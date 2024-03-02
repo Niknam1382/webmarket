@@ -28,7 +28,7 @@ def contact(request) :
 
 def SendEmail(request):
     if request.method == 'POST' :
-        subject = request.POST['sbject']
+        subject = request.POST['subject']
         content = request.POST['content']
 
         x = News.objects.create(send=True)

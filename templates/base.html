@@ -1,4 +1,6 @@
+{% load website_tags %}
 {% load static %}
+{% load humanize %}
 
 <!DOCTYPE html>
 <!--[if lt IE 8]>      <html class="no-js lt-ie10 lt-ie9 lt-ie8"> <![endif]-->
@@ -116,7 +118,8 @@
 
                             <div class="register">
                                 {% if request.user.is_authenticated %}
-                                <a href="{% url 'accounts:profile' %}" style="text-decoration: none; color: #1C39BB;" role="button" data-toggle="modal">پروفایل کاربری</a>
+                                <a href="{% url 'accounts:profile' %}" style="text-decoration: none; color: #1C39BB;"
+                                    role="button" data-toggle="modal">پروفایل کاربری</a>
                                 |
                                 {{ request.user.get_full_name }}
                                 |
@@ -137,7 +140,7 @@
         {% if messages %}
         <div id="myContent">
             <div
-                style="text-align: center; border: 1px dotted #1C39BB; border-radius: 5px; margin-left: 35px; margin-right: 35px; padding-top: 5px;">    
+                style="text-align: center; border: 1px dotted #1C39BB; border-radius: 5px; margin-left: 35px; margin-right: 35px; padding-top: 5px;">
                 <ul class="messages">
                     {% for message in messages %}
                     <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>
@@ -150,7 +153,7 @@
         </div>
         {% endif %}
         <script>
-            setTimeout(function() {
+            setTimeout(function () {
                 document.getElementById("myContent").style.display = "none";
             }, 10000); // 5000 میلی‌ثانیه معادل 5 ثانیه است
         </script>
@@ -175,13 +178,13 @@
                             <div class="nav-collapse collapse">
                                 <ul class="nav" id="mainNavigation">
                                     <li class="dropdown active">
-                                        <a href="{% url 'website:home' %}" > خانه </a>
+                                        <a href="{% url 'website:home' %}"> خانه </a>
 
                                     </li>
 
                                     <li class="dropdown">
-                                        <a href="{% url 'store:home' %}" class="dropdown-toggle"> فروشگاه  </a>
-                                        
+                                        <a href="{% url 'store:home' %}" class="dropdown-toggle"> فروشگاه </a>
+
                                     </li>
                                     <li class="dropdown">
                                         <a href="{% url 'blog:blog' %}" class="dropdown-toggle">بلاگ</a>
@@ -229,96 +232,14 @@
                         <!--  ==========  -->
                         <!--  = Cart =  -->
                         <!--  ==========  -->
-                        <div class="span3">
-                            <div class="cart-container" id="cartContainer">
-                                <div class="cart">
-                                    <p class="items">سبد خرید <span class="dark-clr">(3)</span></p>
-                                    <p class="dark-clr hidden-tablet">$1816.90</p>
-                                    <a href="{% url 'store:cart_detail' %}" class="btn btn-danger">
-                                        <!-- <span class="icon icons-cart"></span> -->
-                                        <i class="icon-shopping-cart"></i>
-                                    </a>
-                                </div>
-                                <div class="open-panel">
-
-                                    <div class="item-in-cart clearfix">
-                                        <div class="image">
-                                            <img src="{% static 'images/dummy/cart-items/cart-item-1.jpg' %}"
-                                                width="124" height="124" alt="cart item" />
-                                        </div>
-                                        <div class="desc">
-                                            <strong><a href="product.html">کلاه زمستانی</a></strong>
-                                            <span class="light-clr qty">
-                                                تعداد : 1
-                                                &nbsp;
-                                                <a href="#" class="icon-remove-sign" title="Remove Item"></a>
-                                            </span>
-                                        </div>
-                                        <div class="price">
-                                            <strong>$4957</strong>
-                                        </div>
-                                    </div>
-
-                                    <div class="item-in-cart clearfix">
-                                        <div class="image">
-                                            <img src="{% static 'images/dummy/cart-items/cart-item-2.jpg' %}"
-                                                width="124" height="124" alt="cart item" />
-                                        </div>
-                                        <div class="desc">
-                                            <strong><a href="product.html">کمربند اسپورت</a></strong>
-                                            <span class="light-clr qty">
-                                                تعداد : 1
-                                                &nbsp;
-                                                <a href="#" class="icon-remove-sign" title="Remove Item"></a>
-                                            </span>
-                                        </div>
-                                        <div class="price">
-                                            <strong>$1318</strong>
-                                        </div>
-                                    </div>
-
-                                    <div class="item-in-cart clearfix">
-                                        <div class="image">
-                                            <img src="{% static 'images/dummy/cart-items/cart-item-3.jpg' %}"
-                                                width="124" height="124" alt="cart item" />
-                                        </div>
-                                        <div class="desc">
-                                            <strong><a href="product.html">کیف پول مردانه</a></strong>
-                                            <span class="light-clr qty">
-                                                تعداد : 1
-                                                &nbsp;
-                                                <a href="#" class="icon-remove-sign" title="Remove Item"></a>
-                                            </span>
-                                        </div>
-                                        <div class="price">
-                                            <strong>$3840</strong>
-                                        </div>
-                                    </div>
-
-                                    <div class="summary">
-                                        <div class="line">
-                                            <div class="row-fluid">
-                                                <div class="span6">هزینه ارسال :</div>
-                                                <div class="span6 align-right">$4.99</div>
-                                            </div>
-                                        </div>
-                                        <div class="line">
-                                            <div class="row-fluid">
-                                                <div class="span6">جمع کل :</div>
-                                                <div class="span6 align-right size-16">$357.81</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="proceed">
-                                        <a href="checkout-step-1.html"
-                                            class="btn btn-danger pull-right bold higher">تصویه حساب <i
-                                                class="icon-shopping-cart"></i></a>
-                                        <small>هزینه ارسال بر اساس منطقه جغرافیایی محاسبه میشود. <a href="#">اطلاعات
-                                                بیشتر</a></small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> <!-- /cart -->
+                        {% if user.is_authenticated %}
+                        {% cart_detail request=request %}
+                        {% else %}
+                        <p></p>
+                        <p style="display: inline; text-align: center; padding: 20px;" class="cart-container dark-clr hidden-tablet">
+                            ( برای مشاهده سبد خرید وارد شوید )
+                        </p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -582,7 +503,8 @@
                     <div class="control-group">
                         <label class="control-label hidden shown-ie8" for="inputEmailRegister">ایمیل</label>
                         <div class="controls">
-                            <input type="email" class="input-block-level" name="email" id="inputEmailRegister" placeholder="ایمیل">
+                            <input type="email" class="input-block-level" name="email" id="inputEmailRegister"
+                                placeholder="ایمیل">
                         </div>
                     </div>
 
@@ -680,4 +602,5 @@
 
 </body>
 response.json()
+
 </html>

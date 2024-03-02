@@ -1,0 +1,55 @@
+{% load humanize %}
+<div class="span3">
+    <div class="cart-container" id="cartContainer">
+        <div class="cart">
+            <p class="items">سبد خرید <span class="dark-clr">{{total_product}}</span></p>
+            <p class="dark-clr hidden-tablet">مجموع : {{total_price|intcomma}}</p>
+            <a href="{% url 'store:cart_detail' %}" class="btn btn-danger">
+                <!-- <span class="icon icons-cart"></span> -->
+                <i class="icon-shopping-cart"></i>
+            </a>
+        </div>
+        <div class="open-panel">
+            {% for i in cart_items %}
+            <div class="item-in-cart clearfix">
+                <div class="image">
+                    <img src="{{ i.product.image.url }}"
+                        width="124" height="124" alt="cart item" />
+                </div>
+                <div class="desc">
+                    <strong><a href="product.html">{{ i.product.name }}</a></strong>
+                    <span class="light-clr qty">
+                        تعداد : {{ i.quantity }}
+                        &nbsp;
+                        <a href="{% url 'store:remove_from_cart2' cart_item_id=i.id %}" title="Remove Item">❌</a>
+                    </span>
+                </div>
+                <div class="price">
+                    <strong>{{ i.product.price|intcomma }}</strong>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="summary">
+                <div class="line">
+                    <div class="row-fluid">
+                        <div class="span6">هزینه ارسال :</div>
+                        <div class="span6 align-right">$4.99</div>
+                    </div>
+                </div>
+                <div class="line">
+                    <div class="row-fluid">
+                        <div class="span6">جمع کل :</div>
+                        <div class="span6 align-right size-16">{{total_price|intcomma}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="proceed">
+                <a href="{% url 'store:cart_detail' %}"
+                    class="btn btn-danger pull-right bold higher">تصویه حساب <i
+                        class="icon-shopping-cart"></i></a>
+                <small>هزینه ارسال بر اساس منطقه جغرافیایی محاسبه میشود. <a href="#">اطلاعات
+                        بیشتر</a></small>
+            </div>
+        </div>
+    </div>
+</div> <!-- /cart -->

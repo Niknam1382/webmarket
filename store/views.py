@@ -62,17 +62,19 @@ def add_to_cart(request):
     if request.method == 'GET':
         product_id = int(request.GET.get("product_id"))
         prod = product.objects.get(pk=product_id)
-        cart_item = None
-        try:
-            cart_item = Cart.objects.get(user=request.user, product=prod)
-        except:
-            pass
-        if cart_item:
-            cart_item.quantity += 1
-            cart_item.save()
-            messages.add_message(request, messages.SUCCESS,"محصول به سبد شما اضافه شد")
-        else:
-            cart_item = Cart.objects.create(user=request.user, product=prod)
+        if prod.price_off is not None:
+
+            cart_item = None
+            try:
+                cart_item = Cart.objects.get(user=request.user, product=prod)
+            except:
+                pass
+            if cart_item:
+                cart_item.quantity += 1
+                cart_item.save()
+                messages.add_message(request, messages.SUCCESS,"محصول به سبد شما اضافه شد")
+            else:
+                cart_item = Cart.objects.create(user=request.user, product=prod)
     return redirect('/store')
 
 @login_required
@@ -83,6 +85,15 @@ def remove_from_cart(request, cart_item_id):
         messages.add_message(request, messages.SUCCESS,"محصول با موفقیت از سبد خرید شما حذف شد")
 
     return redirect('/store/cart_detail')
+
+@login_required
+def remove_from_cart2(request, cart_item_id):
+    cart_item = get_object_or_404(Cart, id=int(cart_item_id))
+    if cart_item.user == request.user:
+        cart_item.delete()
+        messages.add_message(request, messages.SUCCESS,"محصول با موفقیت از سبد خرید شما حذف شد")
+
+    return redirect('/')
 
 @login_required
 def cart_detail(request):
@@ -97,6 +108,7 @@ def cart_detail(request):
 
     return render(request, "checkout-step-1.html", context)
 
+@login_required
 def cart_refresh(request):
     if request.method == 'GET':
         cart_items = Cart.objects.filter(user=request.user)
@@ -112,6 +124,7 @@ def cart_refresh(request):
 
     return redirect('/store/cart_detail')
 
+@login_required
 def cart_detail2(request):
     if request.method == 'POST':
         form = CartD2Form(request.POST)
@@ -134,13 +147,13 @@ def cart_detail2(request):
             request.session['address1'] = address1
             request.session['address2'] = address2
             request.session['code_posti'] = code_posti
-            messages.add_message(request, messages.SUCCESS,"صحیح")
             return redirect('/store/cart_detail_3')
         else:
-            messages.add_message(request, messages.SUCCESS,"غلط")
+            messages.add_message(request, messages.WARNING,"شما محصولی در سبد خرید خود ندارید")
     form = CartD2Form()
     return render(request,"checkout-step-2.html", {'form': form})
 
+@login_required
 def cart_detail3(request):
     if request.method == 'POST':
         options = request.POST['options']
@@ -148,6 +161,7 @@ def cart_detail3(request):
         return redirect('/store/cart_detail_4')
     return render(request,"checkout-step-3.html")
 
+@login_required
 def cart_detail4(request):
     t = False
     if request.method == 'POST':
