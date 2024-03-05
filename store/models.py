@@ -53,3 +53,7 @@ class Cart_Detail2(models.Model):
     address1 = models.TextField()
     address2 = models.TextField(null=True, blank=True)
     code_posti = models.IntegerField()
+
+# class ProductSizes(models.Model):
+#     product = models.ForeignKey(product, on_delete=models.CASCADE)
+#     price = models.OneToOneField(product.price, blank=True)
