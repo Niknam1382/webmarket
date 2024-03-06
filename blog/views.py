@@ -23,7 +23,6 @@ def blog_home(request, **kwargs) :
     return render(request, 'blog.html', context)
 
 def blog_single(request,pid) :
-
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():

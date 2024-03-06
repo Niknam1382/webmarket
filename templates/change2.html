@@ -174,7 +174,7 @@
     </div>
     {% endfor %}
     <div id="login">
-        <form method="post" action="{% url 'accounts:change2'}">
+        <form method="post" action="{% url 'accounts:change2' %}">
             {% csrf_token %}
             <h1>تغییر رمز ورود</h1>
             <input type="password" name="password" placeholder="کلمه ی عبور جدید">

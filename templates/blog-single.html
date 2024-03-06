@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load blog_tags %}
+{% load humanize %}
 {% block content %}
 
 
@@ -61,7 +62,8 @@
                             <div class="metadata">
                                 {{ post.shamsi_publish_date }}
                                 /
-                                نوشته شده توسط : <a title="View all posts in aciform" href="#">{{post.author.get_full_name}}</a>
+                                نوشته شده توسط : <a title="View all posts in aciform"
+                                    href="#">{{post.author.get_full_name}}</a>
                                 /
                                 تعداد بازدید : {{ post.counted_views }}
                             </div>
@@ -85,8 +87,17 @@
                     {% for i in comments %}
                     <div class="single-comment clearfix">
                         <div class="avatar-container">
-                            <img src="{% static 'images/dummy/avatars/avatar-2.jpg' %}" alt="avatar" class="avatar" width="184"
-                                height="184" />
+                            {% if i.user.profile.image.url %}
+                            <div class="avatar"
+                                style="width: 100px; height: 100px; border-radius: 50%; background-image: url('{{i.user.profile.image.url}}'); background-size: cover;">
+                            </div>
+                            {% else %}
+                            <!-- <img src="{% static 'images/default.jpg' %}" alt="avatar" class="avatar" width="184"
+                                height="184" style="border-radius: 50%;" /> -->
+                            <div class="avatar"
+                                style="width: 100px; height: 100px; border-radius: 50%; background-image: url('{% static 'images/default.jpg' %}'); background-size: cover;">
+                            </div>
+                            {% endif %}
                         </div>
                         <div class="comment-content">
                             <div class="comment-inner">
@@ -95,7 +106,7 @@
                                 </cite>
                                 <div class="metadata">
                                     <!-- 26 فروردین 1392 در 12:30 بعد از ظهر -->
-                                {{i.created_at}}
+                                    <span dir="ltr">{{ i.created_at|naturaltime }}</span>
                                 </div>
                                 <div class="comment-text">
                                     <p>{{i.message}}</p>
@@ -109,25 +120,27 @@
 
                     <h3 class="push-down-25"><span class="light">نظر</span> بدهید</h3>
 
-                    <form id="commentform" method="post" action="{% url 'blog:single' pid=post.id %}" class="form form-inline form-comments">
+                    <form id="commentform" method="post" action="{% url 'blog:single' pid=post.id %}"
+                        class="form form-inline form-comments">
                         {% csrf_token %}
+                        {% if request.user.is_authenticated %}
+                        <input type="hidden" name="user" value="{{request.user.id}}">
+                        {% endif %}
                         <input type="hidden" name="post" value="{{post.id}}">
                         <p class="push-down-20">
-                            <input type="text" aria-required="true" name="first_name" tabindex="1" size="30" value="" id="author"
-                                name="author" required>
+                            <input type="text" aria-required="true" name="first_name" tabindex="1" size="30" value=""
+                                id="author" name="author" required>
                             <label for="author">نام<span class="red-clr bold">*</span></label>
                         </p>
                         <p class="push-down-20">
-                            <input type="text" aria-required="true" name="last_name" tabindex="1" size="30" value="" id="author"
-                                name="author" required>
+                            <input type="text" aria-required="true" name="last_name" tabindex="1" size="30" value=""
+                                id="author" name="author" required>
                             <label for="author">نام خانوادگی<span class="red-clr bold">*</span></label>
                         </p>
-                        {% if user.is_authenticated %}
-                        <input type="hidden" name="username" value="{{request.user.username}}">
-                        {% endif %}
                         <p class="push-down-20">
-                            <textarea class="input-block-level" name="message" tabindex="4" rows="7" cols="70" id="comment"
-                                name="comment" placeholder="نظرتان را در اینجا بنویسید ..." required></textarea>
+                            <textarea class="input-block-level" name="message" tabindex="4" rows="7" cols="70"
+                                id="comment" name="comment" placeholder="نظرتان را در اینجا بنویسید ..."
+                                required></textarea>
                         </p>
                         <p>
                             <button class="btn btn-primary bold" type="submit" tabindex="5" id="submit">ارسال

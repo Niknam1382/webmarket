@@ -2,12 +2,15 @@ from django.shortcuts import render, HttpResponseRedirect
 from website.forms import *
 from django.contrib import messages
 from website.models import News
-
+from store.models import product
+from django.utils import timezone
 from django.conf import settings
 from django.core.mail import send_mail
 
 # Create your views here.
 def index(request) :
+    now = timezone.now()
+    products = product.objects.filter(status=True).exclude(published_at__gt=now).order_by('-published_at')
     if request.method == 'POST' :
         form = NewsletterForm(request.POST)
         if form.is_valid() :
@@ -16,7 +19,7 @@ def index(request) :
         else:
             messages.add_message(request, messages.ERROR, "درخواست شما با خطا مواجه شد")
     form = NewsletterForm()
-    return render(request, 'index.html', {'form': form})
+    return render(request, 'index.html', {'form': form, 'products': products})
 
 def contact(request) :
     if request.method == 'POST' :

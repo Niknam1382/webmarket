@@ -33,7 +33,7 @@ def login_view(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect('/')
+    return redirect(request.GET.get('next'))
 
 def signup_view(request):
     if not request.user.is_authenticated:
@@ -168,8 +168,7 @@ def change_2(request):
         password1 = request.POST['password']
         password2 = request.POST['password2']
         if password1 == password2:
-            user_email = request.session.get('email')
-            print(user_email)
+            user_email = request.user.email
             user = User.objects.get(email=user_email)
             user.set_password(password2)
             user.save()

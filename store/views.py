@@ -11,13 +11,18 @@ from django.core.mail import send_mail
 
 # Create your views here.
 def store_views(request):
-    if x := request.session.get('price') is not None:
-        prod = request.session.set('prod')
-        prod = product.objects.get(name=prod)
-        prod.price = x
-        prod.save()
     now = timezone.now()
     products = product.objects.filter(status=True).exclude(published_at__gt=now).order_by('-published_at')
+
+    t = product.objects.filter(status=False)
+    for i in products:
+        for j in t:
+            if i.name==j.name:
+                if i.price_off == j.price:
+                    pass
+                else:
+                    j.delete()
+
     categories = Category.objects.all()
     brands = brand.objects.all()
     sizes = size.objects.all()
@@ -52,7 +57,7 @@ def category_views(request, cat_name):
     return render(request,'shop.html', context)
 
 def product_views(request, pid):
-    prod = get_object_or_404(product, status=True, pk=pid)
+    prod = get_object_or_404(product, status=True, pk=pid) 
     cat = prod.category.get()
     cat = cat.name
     prodc = product.objects.filter(category__name=cat)
@@ -67,13 +72,10 @@ def add_to_cart(request):
         product_id = int(request.GET.get("product_id"))
         prod = product.objects.get(pk=product_id)
         if prod.price_off is not None:
-            prod.price = prod.price_off
-            prod.save()
-            request.session['price'] = prod.price
-            request.session['prod'] = prod.name
+            new_prod = product.objects.get_or_create(name=prod.name, price=prod.price_off, image=prod.image)
             cart_item = None
             try:
-                cart_item = Cart.objects.get(user=request.user, product=prod)
+                cart_item = Cart.objects.get(user=request.user, product=new_prod[0])
             except:
                 pass
             if cart_item:
@@ -81,7 +83,7 @@ def add_to_cart(request):
                 cart_item.save()
                 messages.add_message(request, messages.SUCCESS,"محصول به سبد شما اضافه شد")
             else:
-                cart_item = Cart.objects.create(user=request.user, product=prod)
+                cart_item = Cart.objects.create(user=request.user, product=new_prod[0])
         else:
             cart_item = None
             try:
@@ -96,6 +98,8 @@ def add_to_cart(request):
                 cart_item = Cart.objects.create(user=request.user, product=prod)
           
     return redirect('/store')
+
+from django.http import HttpResponseRedirect
 
 @login_required
 def remove_from_cart(request, cart_item_id):
@@ -112,8 +116,8 @@ def remove_from_cart2(request, cart_item_id):
     if cart_item.user == request.user:
         cart_item.delete()
         messages.add_message(request, messages.SUCCESS,"محصول با موفقیت از سبد خرید شما حذف شد")
-
-    return redirect('/')
+        
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required
 def cart_detail(request):

@@ -476,6 +476,7 @@
             <!--  ==========  -->
             <!--  = Product =  -->
             <!--  ==========  -->
+            {% for product in products %}
             <div class="span3">
                 <div class="product">
                     <div class="product-img">
@@ -483,14 +484,31 @@
                             <img src="{% static 'images/dummy/products/product-6.jpg' %}" alt="" width="540"
                                 height="374" />
                             <div class="img-overlay">
-                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
+                                <a href="{% url 'store:product' pid=product.id %}" class="btn more btn-primary">توضیحات بیشتر</a>
+                                <form action="{% url 'store:add_to_cart' %}" method="GET">
+													
+                                    <input type="hidden" name="product_id" value="{{product.id}}">
+                                    <button type="submit" class="btn buy btn-danger">اضافه به سبد خرید</button>
+                                <!-- <a class="btn buy btn-danger" href="#">اضافه به سبد خرید</a> -->
+                                </form>
                             </div>
                         </div>
                     </div>
                     <div class="main-titles no-margin">
-                        <h4 class="title">$32</h4>
-                        <h5 class="no-margin">محصول ویژه 434</h5>
+                        <h1 style="font-size: medium;" class="no-margin isotope--title">{{product.name}}
+                        </h1>
+                        <br>
+                        {% if product.price_off %}
+                        <h6 style="font-size: medium; display: inline;" class="title"><del>{{product.price}}
+                                تومان</del></h6>
+                        <h6 style="font-size: medium; display: inline; color: green;" class="title">
+                            {{product.price_off}} تومان</h6>
+                        <h6
+                            style="font-size: medium; display: inline; color: red; border: 3px solid red; padding-left: 3px; padding-right: 3px; border-radius: 10px; padding-top: 5px;">
+                            OFF </h6>
+                        {% else %}
+                        <h6 style="font-size: medium;" class="title">{{product.price}} تومان</h6>
+                        {% endif %}
                     </div>
                     <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
                     <p class="center-align stars">
@@ -503,82 +521,13 @@
                     </p>
                 </div>
             </div> <!-- /product -->
-
-
-
-
-            <!--  ==========  -->
-            <!--  = Product =  -->
-            <!--  ==========  -->
-            <div class="span3">
-                <div class="product">
-                    <div class="product-img">
-                        <div class="picture">
-                            <img src="{% static 'images/dummy/products/product-7.jpg' %}" alt="" width="540"
-                                height="374" />
-                            <div class="img-overlay">
-                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="main-titles no-margin">
-                        <h4 class="title">$32</h4>
-                        <h5 class="no-margin">محصول ویژه 414</h5>
-                    </div>
-                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-                    <p class="center-align stars">
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-
-                    </p>
-                </div>
-            </div> <!-- /product -->
-
-
+            {% endfor %}
 
 
             <!--  ==========  -->
             <!--  = Product =  -->
             <!--  ==========  -->
-            <div class="span3">
-                <div class="product">
-                    <div class="product-img">
-                        <div class="picture">
-                            <img src="{% static 'images/dummy/products/product-8.jpg' %}" alt="" width="540"
-                                height="374" />
-                            <div class="img-overlay">
-                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="main-titles no-margin">
-                        <h4 class="title">$32</h4>
-                        <h5 class="no-margin">محصول ویژه 450</h5>
-                    </div>
-                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-                    <p class="center-align stars">
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-
-                    </p>
-                </div>
-            </div> <!-- /product -->
-
-
-
-
-            <!--  ==========  -->
-            <!--  = Product =  -->
-            <!--  ==========  -->
-            <div class="span3">
+            <!-- <div class="span3">
                 <div class="product">
                     <div class="product-img">
                         <div class="picture">
@@ -604,143 +553,9 @@
 
                     </p>
                 </div>
-            </div> <!-- /product -->
+            </div> /product -->
 
-            <div class="clearfix"></div>
-
-
-            <!--  ==========  -->
-            <!--  = Product =  -->
-            <!--  ==========  -->
-            <div class="span3">
-                <div class="product">
-                    <div class="product-img">
-                        <div class="picture">
-                            <img src="{% static 'images/dummy/products/product-10.jpg' %}" alt="" width="540"
-                                height="374" />
-                            <div class="img-overlay">
-                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="main-titles no-margin">
-                        <h4 class="title">$32</h4>
-                        <h5 class="no-margin">محصول ویژه 258</h5>
-                    </div>
-                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-                    <p class="center-align stars">
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-
-                    </p>
-                </div>
-            </div> <!-- /product -->
-
-
-
-
-            <!--  ==========  -->
-            <!--  = Product =  -->
-            <!--  ==========  -->
-            <div class="span3">
-                <div class="product">
-                    <div class="product-img">
-                        <div class="picture">
-                            <img src="{% static 'images/dummy/products/product-11.jpg' %}" alt="" width="540"
-                                height="374" />
-                            <div class="img-overlay">
-                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="main-titles no-margin">
-                        <h4 class="title">$32</h4>
-                        <h5 class="no-margin">محصول ویژه 128</h5>
-                    </div>
-                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-                    <p class="center-align stars">
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star"></span>
-                        <span class="icon-star"></span>
-
-                    </p>
-                </div>
-            </div> <!-- /product -->
-
-
-
-
-            <!--  ==========  -->
-            <!--  = Product =  -->
-            <!--  ==========  -->
-            <div class="span3">
-                <div class="product">
-                    <div class="product-img">
-                        <div class="picture">
-                            <img src="{% static 'images/dummy/products/product-12.jpg' %}" alt="" width="540"
-                                height="374" />
-                            <div class="img-overlay">
-                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="main-titles no-margin">
-                        <h4 class="title">$32</h4>
-                        <h5 class="no-margin">محصول ویژه 156</h5>
-                    </div>
-                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-                    <p class="center-align stars">
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star"></span>
-                        <span class="icon-star"></span>
-
-                    </p>
-                </div>
-            </div> <!-- /product -->
-
-
-
-
-            <!--  ==========  -->
-            <!--  = Product =  -->
-            <!--  ==========  -->
-            <div class="span3">
-                <div class="product">
-                    <div class="product-img">
-                        <div class="picture">
-                            <img src="{% static 'images/dummy/products/product-13.jpg' %}" alt="" width="540"
-                                height="374" />
-                            <div class="img-overlay">
-                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="main-titles no-margin">
-                        <h4 class="title">$32</h4>
-                        <h5 class="no-margin">محصول ویژه 218</h5>
-                    </div>
-                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-                    <p class="center-align stars">
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star"></span>
-                        <span class="icon-star"></span>
-
-                    </p>
-                </div>
-            </div> <!-- /product -->
+            <!-- <div class="clearfix"></div> -->
 
 
 
