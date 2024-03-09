@@ -8,12 +8,14 @@ from django.contrib.auth.decorators import login_required
 from store.forms import CartD2Form
 from django.conf import settings
 from django.core.mail import send_mail
+from django.http import HttpResponseRedirect
+from store.forms import StoreCommentForm
 
 # Create your views here.
 def store_views(request):
     now = timezone.now()
     products = product.objects.filter(status=True).exclude(published_at__gt=now).order_by('-published_at')
-
+    # c = StoreComment.objects.
     t = product.objects.filter(status=False)
     for i in products:
         for j in t:
@@ -22,7 +24,6 @@ def store_views(request):
                     pass
                 else:
                     j.delete()
-
     categories = Category.objects.all()
     brands = brand.objects.all()
     sizes = size.objects.all()
@@ -63,13 +64,37 @@ def product_views(request, pid):
     prodc = product.objects.filter(category__name=cat)
     prod.counted_views += 1
     prod.save()
-    context = {'prod':prod, 'prodc':prodc}
+    comments = StoreComment.objects.filter(product=prod.id, approved=True)
+    context = {'prod':prod, 'prodc':prodc, 'comments':comments}
     return render(request,'product.html', context)
+
+def product_comment(request):
+    if request.method == 'POST':
+        form = StoreCommentForm(request.POST)
+        prod_id = int(request.POST.get('product'))
+        starf = int(request.POST.get('star'))
+        P = product.objects.get(id=prod_id)
+        P.star_c += 1
+        P.star_t += starf
+        P.star = P.star_t // P.star_c
+        P.save()
+        if form.is_valid():
+            form.save()
+            messages.add_message(request,messages.SUCCESS, 'کامنت شما در صف بررسی قرار گرفت')
+        else:
+            messages.add_message(request,messages.ERROR, 'کامنت شما ثبت نشد')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required
 def add_to_cart(request):
     if request.method == 'GET':
         product_id = int(request.GET.get("product_id"))
+        try:
+            num = int(request.GET.get("num"))
+        except:
+            num = None
+        if num == None:
+            num = 1
         prod = product.objects.get(pk=product_id)
         if prod.price_off is not None:
             new_prod = product.objects.get_or_create(name=prod.name, price=prod.price_off, image=prod.image)
@@ -79,11 +104,11 @@ def add_to_cart(request):
             except:
                 pass
             if cart_item:
-                cart_item.quantity += 1
+                cart_item.quantity += num
                 cart_item.save()
                 messages.add_message(request, messages.SUCCESS,"محصول به سبد شما اضافه شد")
             else:
-                cart_item = Cart.objects.create(user=request.user, product=new_prod[0])
+                cart_item = Cart.objects.create(user=request.user, product=new_prod[0], quantity=num)
         else:
             cart_item = None
             try:
@@ -91,15 +116,13 @@ def add_to_cart(request):
             except:
                 pass
             if cart_item:
-                cart_item.quantity += 1
+                cart_item.quantity += num
                 cart_item.save()
                 messages.add_message(request, messages.SUCCESS,"محصول به سبد شما اضافه شد")
             else:
-                cart_item = Cart.objects.create(user=request.user, product=prod)
-          
-    return redirect('/store')
+                cart_item = Cart.objects.create(user=request.user, product=prod, quantity=num)
 
-from django.http import HttpResponseRedirect
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required
 def remove_from_cart(request, cart_item_id):
@@ -107,7 +130,6 @@ def remove_from_cart(request, cart_item_id):
     if cart_item.user == request.user:
         cart_item.delete()
         messages.add_message(request, messages.SUCCESS,"محصول با موفقیت از سبد خرید شما حذف شد")
-
     return redirect('/store/cart_detail')
 
 @login_required
@@ -116,7 +138,6 @@ def remove_from_cart2(request, cart_item_id):
     if cart_item.user == request.user:
         cart_item.delete()
         messages.add_message(request, messages.SUCCESS,"محصول با موفقیت از سبد خرید شما حذف شد")
-        
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 @login_required
@@ -129,7 +150,6 @@ def cart_detail(request):
         "cart_items": cart_items,
         "total_price": total_price,
     }
-
     return render(request, "checkout-step-1.html", context)
 
 @login_required
@@ -145,7 +165,6 @@ def cart_refresh(request):
             cart_item.quantity = n
             cart_item.save()
         messages.add_message(request, messages.SUCCESS,"تازه سازی سبد خرید شما با موفقیت انجام شد")
-
     return redirect('/store/cart_detail')
 
 @login_required

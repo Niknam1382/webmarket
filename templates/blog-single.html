@@ -120,7 +120,7 @@
 
                     <h3 class="push-down-25"><span class="light">نظر</span> بدهید</h3>
 
-                    <form id="commentform" method="post" action="{% url 'blog:single' pid=post.id %}"
+                    <form id="commentform" method="post" action="{% url 'store:product' pid=product.id %}"
                         class="form form-inline form-comments">
                         {% csrf_token %}
                         {% if request.user.is_authenticated %}

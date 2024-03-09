@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from jdatetime import date
-from persian_tools import digits
 
 # Create your models here.
 

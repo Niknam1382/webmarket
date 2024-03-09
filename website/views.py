@@ -10,7 +10,8 @@ from django.core.mail import send_mail
 # Create your views here.
 def index(request) :
     now = timezone.now()
-    products = product.objects.filter(status=True).exclude(published_at__gt=now).order_by('-published_at')
+    products = product.objects.filter(status=True).exclude(published_at__gt=now).order_by('-published_at')[:6]
+    products_off = product.objects.filter(status=True, price_off__isnull=False).exclude(published_at__gt=now).order_by('-published_at')
     if request.method == 'POST' :
         form = NewsletterForm(request.POST)
         if form.is_valid() :
@@ -19,7 +20,7 @@ def index(request) :
         else:
             messages.add_message(request, messages.ERROR, "درخواست شما با خطا مواجه شد")
     form = NewsletterForm()
-    return render(request, 'index.html', {'form': form, 'products': products})
+    return render(request, 'index.html', {'form': form, 'products': products, 'products_off':products_off})
 
 def contact(request) :
     if request.method == 'POST' :

@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load blog_tags %}
+{% load store_tags %}
 {% load static %}
+{% load humanize %}
 {% block content %}
 
 <!--  ==========  -->
@@ -96,29 +98,15 @@
                     <!--  ==========  -->
                     <!--  = Add to cart form =  -->
                     <!--  ==========  -->
-                    <form action="#" class="form form-inline clearfix">
+                    <form action="{% url 'store:add_to_cart' %}" class="form form-inline clearfix" method="get">
                         <div class="numbered">
-                            <input type="text" name="num" value="1" class="tiny-size" />
+                            <input type="text" name="num" value="1" />
+                            <input type="hidden" name="product_id" value="{{prod.id}}">
                             <span class="clickable add-one icon-plus-sign-alt"></span>
                             <span class="clickable remove-one icon-minus-sign-alt"></span>
                         </div>
                         &nbsp;
-                        <select name="color" class="span2">
-                            <option value="-1">انتخاب رنگ</option>
-                            <option value="blue">آبی</option>
-                            <option value="orange">نارنجی</option>
-                            <option value="black">مشکی</option>
-                        </select>
-                        &nbsp;
-                        <select name="size" class="span2">
-                            <option value="-1">انتخاب سایز</option>
-                            <option value="XS">خیلی کوچک</option>
-                            <option value="S">کوچک</option>
-                            <option value="M">متوسط</option>
-                            <option value="L">بزرگ</option>
-                            <option value="XL">خیلی بزرگ</option>
-                            <option value="XXL">خیلی خیلی بزرگ</option>
-                        </select>
+
                         <button class="btn btn-danger pull-right"><i class="icon-shopping-cart"></i> اضافه به سبد
                             خرید</button>
                     </form>
@@ -138,7 +126,7 @@
                         <a href="#tab-1" data-toggle="tab">جزئیات</a>
                     </li>
                     <li>
-                        <a href="#tab-2" data-toggle="tab">جدول اندازه</a>
+                        <a href="#tab-2" data-toggle="tab">سوالات متداول</a>
                     </li>
                     <li>
                         <a href="#tab-3" data-toggle="tab">نظرات</a>
@@ -153,26 +141,71 @@
                         <p>{{ prod.description|safe }}</p>
                     </div>
                     <div class="fade tab-pane" id="tab-2">
-                        <p>
-                            لورم ایپسوم متنی است که ساختگی برای طراحی و چاپ آن مورد است. صنعت چاپ زمانی لازم بود شرایطی
-                            شما باید فکر ثبت نام و طراحی، لازمه خروج می باشد. در ضمن قاعده همفکری ها جوابگوی سئوالات
-                            زیاد شاید باشد، آنچنان که لازم بود طراحی گرافیکی خوب بود. کتابهای زیادی شرایط سخت ، دشوار و
-                            کمی در سالهای دور لازم است. هدف از این نسخه فرهنگ پس از آن و دستاوردهای خوب شاید باشد.
-                            حروفچینی لازم در شرایط فعلی لازمه تکنولوژی بود که گذشته، حال و آینده را شامل گردد. سی و پنج
-                            درصد از طراحان در قرن پانزدهم میبایست پرینتر در ستون و سطر حروف لازم است، بلکه شناخت این
-                            ابزار گاه اساسا بدون هدف بود و سئوالهای زیادی در گذشته بوجود می آید، تنها لازمه آن بود.
-                        </p>
+                        {% if prod.questions %}
+                        <p>{{ prod.questions|safe }}</p>
+                        <hr />
+                        <p>برای اضافه کردن بخشی به این قسمت میتوانید در قسمت نظرات سوال خورد را مطرح کنید</p>
+                        {% else %}
+                        <p>برای اضافه کردن بخشی به این قسمت میتوانید در قسمت نظرات سوال خورد را مطرح کنید</p>
+                        {% endif %}
                     </div>
                     <div class="fade tab-pane" id="tab-3">
-                        <p>
-                            لورم ایپسوم متنی است که ساختگی برای طراحی و چاپ آن مورد است. صنعت چاپ زمانی لازم بود شرایطی
-                            شما باید فکر ثبت نام و طراحی، لازمه خروج می باشد. در ضمن قاعده همفکری ها جوابگوی سئوالات
-                            زیاد شاید باشد، آنچنان که لازم بود طراحی گرافیکی خوب بود. کتابهای زیادی شرایط سخت ، دشوار و
-                            کمی در سالهای دور لازم است. هدف از این نسخه فرهنگ پس از آن و دستاوردهای خوب شاید باشد.
-                            حروفچینی لازم در شرایط فعلی لازمه تکنولوژی بود که گذشته، حال و آینده را شامل گردد. سی و پنج
-                            درصد از طراحان در قرن پانزدهم میبایست پرینتر در ستون و سطر حروف لازم است، بلکه شناخت این
-                            ابزار گاه اساسا بدون هدف بود و سئوالهای زیادی در گذشته بوجود می آید، تنها لازمه آن بود.
-                        </p>
+
+                        <h3 class="push-down-25"><span class="light">نظر</span> بدهید</h3>
+
+                        <!-- {{form.as_p}} -->
+                        <form id="commentform" method="post" action="{% url 'store:comment' %}"
+                            class="form form-inline form-comments">
+                            {% csrf_token %}
+                            {% if request.user.is_authenticated %}
+                            <input type="hidden" name="user" value="{{request.user.id}}">
+                            {% endif %}
+                            <input type="hidden" name="product" value="{{prod.id}}">
+                            <p class="push-down-20">
+                                <input type="text" aria-required="true" name="first_name" tabindex="1" size="30"
+                                    value="" id="author" name="author" required>
+                                <label for="author">نام<span class="red-clr bold">*</span></label>
+                            </p>
+                            <p class="push-down-20">
+                                <input type="text" aria-required="true" name="last_name" tabindex="1" size="30" value=""
+                                    id="author" name="author" required>
+                                <label for="author">نام خانوادگی<span class="red-clr bold">*</span></label>
+                            </p>
+                            <p class="push-down-20">
+                                <textarea class="input-block-level" name="message" tabindex="4" rows="7" cols="70"
+                                    id="comment" name="comment" placeholder="نظرتان را در اینجا بنویسید ..."
+                                    required></textarea>
+                            </p>
+                            <p class="push-down-20">
+                                <input type="number" id="number" name="star" min="1" max="5" placeholder="⭐ از 1 تا 5 ستاره بدهید ⭐">
+                            </p>
+                            <p>
+                                <button class="btn btn-primary bold" type="submit" tabindex="5" id="submit">ارسال
+                                    نظر</button>
+                            </p>
+                        </form>
+                        
+
+                        {% for i in comments %}
+                        <div class="single-comment clearfix"
+                            style="border: 1px solid black; border-radius: 5px; padding: 10px; margin: 10px;">
+                            <div class="avatar-container">
+                            </div>
+                            <div class="comment-content">
+                                <div class="comment-inner">
+                                    <cite class="author-name">
+                                        <span class="light">{{i.first_name}} {{i.last_name}}</span>
+                                    </cite>
+                                    <div class="metadata">
+                                        <span dir="ltr">{{ i.created_at|naturaltime }}</span>
+                                    </div>
+                                    <div class="comment-text">
+                                        <p>{{i.message}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                     <div class="fade tab-pane" id="tab-4">
                         <p>
@@ -223,8 +256,16 @@
                         <div class="picture">
                             <img src="{{ i.image.url }}" alt="" width="540" height="374" />
                             <div class="img-overlay">
-                                <a href="{% url 'store:product' pid=i.id %}" class="btn more btn-primary">توضیحات بیشتر</a>
-                                <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
+                                <a href="{% url 'store:product' pid=i.id %}" class="btn more btn-primary">توضیحات
+                                    بیشتر</a>
+                                {% if prod.available == 1 %}
+                                <form action="{% url 'store:add_to_cart' %}" method="GET">
+
+                                    <input type="hidden" name="product_id" value="{{prod.id}}">
+                                    <button type="submit" class="btn buy btn-danger">اضافه به سبد خرید</button>
+                                    <!-- <a class="btn buy btn-danger" href="#">اضافه به سبد خرید</a> -->
+                                </form>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -233,13 +274,14 @@
                                 تومان</span></h4>
                         <h5 class="no-margin">{{i.name}}</h5>
                     </div>
-                    <p class="desc">{{ i.description|truncatechars:200|safe }}</p>
+                    <p class="desc">{{ i.description|truncatechars:40|safe }}</p>
                     <p class="center-align stars">
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
+                        {% for _ in i.star|times_n %}
                         <span class="icon-star"></span>
+                        {% endfor %}
+                        {% for _ in i.star|times %}
+                        <span class="icon-star stars-clr"></span>
+                        {% endfor %}
                     </p>
                 </div>
             </div> <!-- /product -->
