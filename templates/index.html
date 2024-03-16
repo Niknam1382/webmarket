@@ -269,7 +269,7 @@
                                     {% endif %}
                                     <h5 class="no-margin">{{i.name}}</h5>
                                 </div>
-                                <p class="desc">{{ i.description|truncatechars:40|safe }}</p>
+                                <!-- <p class="desc">{{ i.description|truncatechars:40|safe }}</p> -->
                                 <p class="center-align stars">
                                     {% for _ in i.star|times_n %}
                                     <span class="icon-star"></span>
@@ -347,7 +347,7 @@
                         <h6 style="font-size: medium;" class="title">{{product.price}} تومان</h6>
                         {% endif %}
                     </div>
-                    <p class="desc">{{product.description|truncatechars:40|safe}}</p>
+                    <!-- <p class="desc">{{product.description|truncatechars:40|safe}}</p> -->
                     <p class="center-align stars">
                         {% for _ in product.star|times_n %}
                         <span class="icon-star"></span>
@@ -423,7 +423,7 @@
                         {% endif %}
                         <h5 class="no-margin">{{product.name}}</h5>
                     </div>
-                    <p class="desc">{{product.description|truncatechars:40|safe}}</p>
+                    <!-- <p class="desc">{{product.description|truncatechars:40|safe}}</p> -->
                     <p class="center-align stars">
                         {% for _ in product.star|times_n %}
                         <span class="icon-star"></span>
@@ -442,6 +442,8 @@
 <!--  ==========  -->
 <!--  = Lastest News =  -->
 <!--  ==========  -->
+<hr>
+{% if newsd == 1 %}
 <div class="darker-stripe blocks-spacer more-space latest-news with-shadows">
     <div class="container">
 
@@ -463,6 +465,7 @@
         <!--  ==========  -->
         <!--  = News content =  -->
         <!--  ==========  -->
+        
         <div class="row">
             <div class="span12">
                 <div class="carouFredSel" data-nav="tweets" data-autoplay="false">
@@ -482,9 +485,10 @@
                 </div>
             </div>
         </div> <!-- /news content -->
+        
     </div>
 </div> <!-- /latest news -->
-
+{% endif %}
 <!--  ==========  -->
 <!--  = Brands Carousel =  -->
 <!--  ==========  -->

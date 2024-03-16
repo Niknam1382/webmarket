@@ -11,6 +11,10 @@ from django.core.mail import send_mail
 def index(request) :
     now = timezone.now()
     news = News.objects.all().order_by('-date')[:5]
+    if len(news) > 0 :
+        newsd = 1
+    else:
+        newsd = 0
     products = product.objects.filter(status=True).exclude(published_at__gt=now).order_by('-published_at')[:6]
     products_off = product.objects.filter(status=True, price_off__isnull=False).exclude(published_at__gt=now).order_by('-published_at')
     try:
@@ -45,7 +49,7 @@ def index(request) :
         else:
             messages.add_message(request, messages.ERROR, "درخواست شما با خطا مواجه شد")
     form = NewsletterForm()
-    return render(request, 'index.html', {'form': form, 'products': products, 'products_off':products_off, 'products_star':products_star, 'news':news})
+    return render(request, 'index.html', {'form': form, 'products': products, 'products_off':products_off, 'products_star':products_star, 'news':news, 'newsd':newsd})
 
 def contact(request) :
     if request.method == 'POST' :
