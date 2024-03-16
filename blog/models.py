@@ -28,7 +28,7 @@ class Post(models.Model) :
            return date.fromgregorian(date=self.published_at)
     
     class Meta:
-        ordering = ('created_at',)
+        ordering = ('-created_at',)
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

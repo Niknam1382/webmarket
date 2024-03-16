@@ -42,6 +42,14 @@ def blog_single(request,pid) :
 def blog_category(request, cat_name):
     now = timezone.now()
     posts = Post.objects.filter(status=True, category__name=cat_name).exclude(published_at__gt=now).order_by('-published_at')
+    posts = Paginator(posts, 4)
+    try :
+        page_number = request.GET.get('page')
+        posts = posts.get_page(page_number)
+    except PageNotAnInteger :
+        posts = posts.get_page(1)
+    except EmptyPage:
+        posts = posts.get_page(1)
     context = {'posts': posts}
     return render(request, 'blog.html', context)
 
