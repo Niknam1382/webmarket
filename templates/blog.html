@@ -13,16 +13,16 @@
             <div class="span12">
                 <ul class="breadcrumb">
                     <li>
-                        <a href="index.html">وبمارکت</a>
+                        <a href="{% url 'website:home' %}">وبمارکت</a>
                     </li>
                     <li><span class="icon-chevron-right"></span></li>
                     <li>
-                        <a href="shop.html">بلاگ</a>
+                        <a href="{% url 'blog:blog' %}">بلاگ</a>
                     </li>
-                    <li><span class="icon-chevron-right"></span></li>
+                    <!-- <li><span class="icon-chevron-right"></span></li>
                     <li>
                         <a href="blog.html">همه نوشته ها</a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
@@ -56,10 +56,11 @@
 
                 <article class="post format-image">
                     <div class="post-inner">
-                        <a href="{% url 'blog:single' pid=post.id %}"><img src="{{ post.image.url }}" alt='{{ post.title }}'
-                                alt="featured image" width="1540" height="746" /></a>
+                        <a href="{% url 'blog:single' pid=post.id %}"><img src="{{ post.image.url }}"
+                                alt='{{ post.title }}' alt="featured image" width="1540" height="746" /></a>
                         <div class="post-title">
-                            <h2><a href="{% url 'blog:single' pid=post.id %}"><span class="light">{{ post.title }}</a></h2>
+                            <h2><a href="{% url 'blog:single' pid=post.id %}"><span class="light">{{ post.title }}</a>
+                            </h2>
                             <div class="metadata">
                                 16 فروردین 1392 /
                                 نوشته شده توسط : <a rel="category tag" title="View all posts in aciform"
@@ -82,17 +83,19 @@
                 <div class="pagination" style="text-align: center;">
                     <ul>
                         {% if posts.has_previous %}
-                        <li><a href="?page={{ posts.previous_page_number }}" class="btn btn-primary"><span class="icon-chevron-left"></span></a></li>
+                        <li><a href="?page={{ posts.previous_page_number }}" class="btn btn-primary"><span
+                                    class="icon-chevron-left"></span></a></li>
                         {% endif %}
-                            {% for i in posts.paginator.page_range %}
-                            {% if posts.number == i %}
-                            <li class="active"><a href="?page={{i}}">{{i}}</a></li>
-                            {% else %}
-                            <li><a href="?page={{i}}">{{i}}</a></li>
-                            {% endif %}
-                            {% endfor %}
+                        {% for i in posts.paginator.page_range %}
+                        {% if posts.number == i %}
+                        <li class="active"><a href="?page={{i}}">{{i}}</a></li>
+                        {% else %}
+                        <li><a href="?page={{i}}">{{i}}</a></li>
+                        {% endif %}
+                        {% endfor %}
                         {% if posts.has_next %}
-                        <li><a href="?page={{ posts.next_page_number }}" class="btn btn-primary"><span class="icon-chevron-right"></span></a></li>
+                        <li><a href="?page={{ posts.next_page_number }}" class="btn btn-primary"><span
+                                    class="icon-chevron-right"></span></a></li>
                         {% endif %}
                     </ul>
                 </div> <!-- /pagination -->
@@ -128,7 +131,6 @@
                     <div class="underlined">
                         <h3><span class="light">ابزارک</span> فلیکر</h3>
                     </div>
-
                     <div class="flickr-badge clearfix">
                         <!-- Start of Flickr Badge -->
                         <div id="flickr_badge_uber_wrapper">
@@ -140,26 +142,27 @@
                         <!-- End of Flickr Badge -->
                     </div>
                 </div>
-
                 {% postcategories %}
-
                 <!--  ==========  -->
                 <!--  = Twitter Widget =  -->
                 <!--  ==========  -->
-                <div class="sidebar-item widget_twitter">
+                <div class="sidebar-item widget_archive">
                     <div class="underlined">
-                        <h3><span class="light">فید</span> توییتر</h3>
+                        <h3><span class="light"> یکمی جا </span>برای متن های دلخواهمون</h3>
                     </div>
-
-                    <a class="twitter-timeline" href="https://twitter.com/primozدیوید"
-                        data-widget-id="361435057526800385">Tweets by @primozدیوید</a>
-                    <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
-
+                    <p>این پروژه یک فروشگاه آنلاین بر پایه جنگو می‌باشد که به مدیر سایت امکان اضافه کردن متن‌های دلخواه
+                        را فراهم می‌کند. با استفاده از این قابلیت، مدیران سایت می‌توانند مطالب، خبرها یا توضیحات محصولات
+                        را به آسانی به وبسایت خود اضافه کرده و آن را به روز نگه دارند. یکی از مزایای استفاده از چارچوب
+                        جنگو برای این پروژه، سرعت و کارایی بالاست. جنگو با داشتن یک ساختار کدی منظم و قوی، توسعه سریع و
+                        بهینه‌ای را برای توسعه‌دهندگان فراهم می‌کند.
+                    </p>
+                    <p>
+                    از طرفی، یکی از معایب جنگو ممکن است پیچیدگی آن برای مبتدیان باشد. چارچوب جنگو شامل بخش‌های
+                    متعددی از جمله ORM (Object-Relational Mapping)، تشخیص واسط کاربری، مدیریت تصاویر و... است که
+                    ممکن است برای کسانی که تازه وارد این حوزه هستند، یادگیری آنها زمان بیشتری را اشغال کند. با این
+                    حال، با انعطاف‌پذیری و توانایی بالای جنگو، این معایب نیز قابل پیش‌بینی و قابل حل هستند.</p>
                 </div>
-
-
             </aside> <!-- /sidebar -->
-
         </div>
     </div>
 </div> <!-- /container -->

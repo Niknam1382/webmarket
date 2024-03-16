@@ -14,19 +14,14 @@
             <div class="span12">
                 <ul class="breadcrumb">
                     <li>
-                        <a href="index.html">وبمارکت</a>
-                    </li>
+						<a href="{% url 'website:home' %}">وبمارکت</a>
+					</li>
+					<li><span class="icon-chevron-right"></span></li>
+					<li>
+						<a href="{% url 'store:home' %}">فروشگاه</a>
+					</li>
                     <li><span class="icon-chevron-right"></span></li>
-                    <li>
-                        <a href="shop.html">فروشگاه</a>
-                    </li>
-                    <li><span class="icon-chevron-right"></span></li>
-                    <li>
-                        <a href="#">محصول ویژه</a>
-                    </li>
-                    <li><span class="icon-chevron-right"></span></li>
-                    <li>
-                        <a href="product.html">تی شرت مردانه کلاه دار</a>
+                        <a href="{{requests.path}}">محصول</a>
                     </li>
                 </ul>
             </div>

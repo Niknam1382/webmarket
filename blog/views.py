@@ -33,9 +33,10 @@ def blog_single(request,pid) :
 
     post = get_object_or_404(Post, pk=pid, status=True)
     comments = Comment.objects.filter(post=post.id, approved=True)
+    cc = comments.count()
     post.counted_views += 1
     post.save()
-    context = {'post': post, 'comments': comments}
+    context = {'post': post, 'comments': comments, 'cc': cc}
     return render(request, 'blog-single.html', context)
 
 def blog_category(request, cat_name):
