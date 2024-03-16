@@ -15,7 +15,6 @@ from store.forms import StoreCommentForm
 def store_views(request):
     now = timezone.now()
     products = product.objects.filter(status=True).exclude(published_at__gt=now).order_by('-published_at')
-    # c = StoreComment.objects.
     t = product.objects.filter(status=False)
     for i in products:
         for j in t:
@@ -97,7 +96,7 @@ def add_to_cart(request):
             num = 1
         prod = product.objects.get(pk=product_id)
         if prod.price_off is not None:
-            new_prod = product.objects.get_or_create(name=prod.name, price=prod.price_off, image=prod.image)
+            new_prod = product.objects.get_or_create(name=prod.name, price=prod.price_off, image=prod.image, inventory=prod.inventory)
             cart_item = None
             try:
                 cart_item = Cart.objects.get(user=request.user, product=new_prod[0])

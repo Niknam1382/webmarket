@@ -76,7 +76,6 @@ def verify(request):
     if response.status_code == 200:
         response = response.json()
         if response['Status'] == 100:
-            
             first_name = request.session.get('first_name')
             last_name = request.session.get('last_name') 
             phone_number = request.session.get('phone_number')
@@ -111,7 +110,6 @@ def verify(request):
                 else:
                     single_cart.product.save()
                     c.save()
-
                     subject = 'اطلاعیه سفارش آنلاین'
                     txt1 = f'سفارش دهنده : {first_name} {last_name}'
                     txt2 = f'نام کاربری : {request.user.username}'
@@ -123,7 +121,6 @@ def verify(request):
                     txt8 = ''
                     for i in l:
                         txt8 += f'{i[0]} - {i[1]}\n'
-                        
                     txt = f'{txt1}\n{txt2}\n{txt3}\n{txt4}\n{txt5}\n{txt6}\n{txt7}\n{txt8}'
                     # if t is True:
                     message = txt
@@ -133,7 +130,6 @@ def verify(request):
                     messages.add_message(request, messages.SUCCESS,"سفارش شما در صف بررسی قرار رفت و نتیجه ی آن به شما ارسال میشود")
                     cart.delete()
                     return redirect('/')
-
             # return JsonResponse({'status': True, 'RefID': response['RefID']})
         else:
             return JsonResponse({'status': False, 'code': str(response['Status'])})

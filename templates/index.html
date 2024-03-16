@@ -184,21 +184,21 @@
                 <!--  ==========  -->
                 <div class="row">
                     <div class="span4">
-                        <a href="#" class="btn btn-block banner">
-                            <span class="title"><span class="light">فروش</span> تابستانی</span>
-                            <em>تا 60% تخفیف روی کفش ها</em>
+                        <a href="#vije" class="btn btn-block banner">
+                            <span class="title"><span class="light">محصولات</span> ویژه</span>
+                            <em>محصولات دارای تخفیف ویژه</em>
                         </a>
                     </div>
                     <div class="span4">
-                        <a href="#" class="btn btn-block colored banner">
-                            <span class="title"><span class="light">ارسال</span> رایگان</span>
-                            <em>برای خرید های بیش از 69000 تومان</em>
-                        </a>
-                    </div>
-                    <div class="span4">
-                        <a href="#" class="btn btn-block banner">
+                        <a href="#new" class="btn btn-block colored banner">
                             <span class="title"><span class="light">محصولات</span> جدید</span>
-                            <em>از محصولات جدید دیدن کنید.</em>
+                            <em>از محصولات جدید دیدن کنید</em>
+                        </a>
+                    </div>
+                    <div class="span4" id="vije">
+                        <a href="#like" class="btn btn-block banner">
+                            <span class="title"><span class="light">محبوب ترین</span> محصولات</span>
+                            <em>محبوب ترین محصولات بر اساس امتیاز کاربران</em>
                         </a>
                     </div>
                 </div> <!-- /three banners -->
@@ -216,7 +216,7 @@
             <!--  = Title =  -->
             <!--  ==========  -->
             <div class="main-titles lined">
-                <h2 class="title"><span class="light">محصولات</span> ویژه</h2>
+                <h2 class="title"><span class="light" >محصولات</span> ویژه</h2>
                 <div class="arrows">
                     <a href="#" class="icon-chevron-right" id="featuredItemsRight"></a>
                     <a href="#" class="icon-chevron-left" id="featuredItemsLeft"></a>
@@ -239,51 +239,51 @@
                             <div class="product">
                                 <div class="product-img featured">
                                     <div class="picture">
-                                        <img src="{{i.image.url}}" alt=""
-                                            width="518" height="358" />
+                                        <img src="{{i.image.url}}" alt="" width="518" height="358" />
                                         <div class="img-overlay">
                                             <a class="btn more btn-primary"
-												href="{% url 'store:product' pid=i.id %}">توضیحات بیشتر</a>
-												{% if i.available == 1 %}
-												<form action="{% url 'store:add_to_cart' %}" method="GET">
-													
-													<input type="hidden" name="product_id" value="{{i.id}}">
-													<button type="submit" class="btn buy btn-danger">اضافه به سبد خرید</button>
-												<!-- <a class="btn buy btn-danger" href="#">اضافه به سبد خرید</a> -->
-												</form>
-												{% endif %}
+                                                href="{% url 'store:product' pid=i.id %}">توضیحات بیشتر</a>
+                                            {% if i.available == 1 %}
+                                            <form action="{% url 'store:add_to_cart' %}" method="GET">
+
+                                                <input type="hidden" name="product_id" value="{{i.id}}">
+                                                <button type="submit" class="btn buy btn-danger">اضافه به سبد
+                                                    خرید</button>
+                                                <!-- <a class="btn buy btn-danger" href="#">اضافه به سبد خرید</a> -->
+                                            </form>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="main-titles">
                                     {% if i.price_off %}
-									<h6 style="font-size: medium; display: inline;" class="title"><del>{{i.price}}
-											تومان</del></h6>
-									<h6 style="font-size: medium; display: inline; color: green;" class="title">
-										{{i.price_off}} تومان</h6>
-									<h6
-										style="font-size: medium; display: inline; color: red; border: 3px solid red; padding-left: 3px; padding-right: 3px; border-radius: 10px; padding-top: 5px;">
-										OFF </h6>
-									{% else %}
-									<h6 style="font-size: medium;" class="title">{{i.price}} تومان</h6>
-									{% endif %}
+                                    <h6 style="font-size: medium; display: inline;" class="title"><del>{{i.price}}
+                                            تومان</del></h6>
+                                    <h6 style="font-size: medium; display: inline; color: green;" class="title">
+                                        {{i.price_off}} تومان</h6>
+                                    <h6
+                                        style="font-size: medium; display: inline; color: red; border: 3px solid red; padding-left: 3px; padding-right: 3px; border-radius: 10px; padding-top: 5px;">
+                                        OFF </h6>
+                                    {% else %}
+                                    <h6 style="font-size: medium;" class="title">{{i.price}} تومان</h6>
+                                    {% endif %}
                                     <h5 class="no-margin">{{i.name}}</h5>
                                 </div>
                                 <p class="desc">{{ i.description|truncatechars:40|safe }}</p>
                                 <p class="center-align stars">
-									{% for _ in i.star|times_n %}
-									<span class="icon-star"></span>
-									{% endfor %}
-									{% for _ in i.star|times %}
-									<span class="icon-star stars-clr"></span>
-									{% endfor %}
-								</p>
+                                    {% for _ in i.star|times_n %}
+                                    <span class="icon-star"></span>
+                                    {% endfor %}
+                                    {% for _ in i.star|times %}
+                                    <span class="icon-star stars-clr" id="new"></span>
+                                    {% endfor %}
+                                </p>
                             </div>
                         </div> <!-- /product -->
                         {% endfor %}
                     </div>
                 </div>
-                
+
             </div> <!-- /carousel -->
         </div>
 
@@ -293,7 +293,7 @@
 <!--  ==========  -->
 <!--  = New Products =  -->
 <!--  ==========  -->
-<div class="boxed-area blocks-spacer">
+<div class="boxed-area blocks-spacer" >
     <div class="container">
 
         <!--  ==========  -->
@@ -353,7 +353,7 @@
                         <span class="icon-star"></span>
                         {% endfor %}
                         {% for _ in product.star|times %}
-                        <span class="icon-star stars-clr"></span>
+                        <span class="icon-star stars-clr" id="like"></span>
                         {% endfor %}
                     </p>
                 </div>
@@ -375,144 +375,66 @@
         <div class="row">
             <div class="span12">
                 <div class="main-titles lined">
-                    <h2 class="title"><span class="light">محبوبترین</span>محصولات فروشگاه</h2>
+                    <h2 class="title" ><span class="light">محبوب ترین</span> محصولات فروشگاه</h2>
                 </div>
             </div>
         </div> <!-- /title -->
 
         <div class="row popup-products">
-
-
-
+            {% for product in products_star %}
             <!--  ==========  -->
             <!--  = Product =  -->
             <!--  ==========  -->
             <div class="span3">
                 <div class="product">
+                    {% if product.available == 0 %}
+                    <div class="stamp red">تمام شد</div>
+                    {% else %}
+                    <div class="stamp green">موجود</div>
+                    {% endif %}
                     <div class="product-img">
                         <div class="picture">
-                            <img src="{% static 'images/dummy/most-popular-products/popular-1.jpg' %}" alt=""
-                                width="540" height="412" />
+                            <img src="{{ product.image.url }}" alt="{{product.name}}" width="540" height="412" />
                             <div class="img-overlay">
-                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
+                                <a href="{% url 'store:product' pid=product.id %}" class="btn more btn-primary">توضیحات
+                                    بیشتر</a>
+                                {% if product.available == 1 %}
+                                <form action="{% url 'store:add_to_cart' %}" method="GET">
+
+                                    <input type="hidden" name="product_id" value="{{product.id}}">
+                                    <button type="submit" class="btn buy btn-danger">اضافه به سبد خرید</button>
+                                    <!-- <a class="btn buy btn-danger" href="#">اضافه به سبد خرید</a> -->
+                                </form>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="main-titles no-margin">
-                        <h4 class="title">$32</h4>
-                        <h5 class="no-margin">محصول ویژه 456</h5>
+                        {% if product.price_off %}
+                        <h6 style="font-size: medium; display: inline;" class="title"><del>{{product.price}}
+                                تومان</del></h6>
+                        <h6 style="font-size: medium; display: inline; color: green;" class="title">
+                            {{product.price_off}} تومان</h6>
+                        <h6
+                            style="font-size: medium; display: inline; color: red; border: 3px solid red; padding-left: 3px; padding-right: 3px; border-radius: 10px; padding-top: 5px;">
+                            OFF </h6>
+                        {% else %}
+                        <h6 style="font-size: medium;" class="title">{{product.price}} تومان</h6>
+                        {% endif %}
+                        <h5 class="no-margin">{{product.name}}</h5>
                     </div>
-                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
+                    <p class="desc">{{product.description|truncatechars:40|safe}}</p>
                     <p class="center-align stars">
+                        {% for _ in product.star|times_n %}
+                        <span class="icon-star"></span>
+                        {% endfor %}
+                        {% for _ in product.star|times %}
                         <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star"></span>
-                        <span class="icon-star"></span>
-                        <span class="icon-star"></span>
-
+                        {% endfor %}
                     </p>
                 </div>
             </div> <!-- /product -->
-
-
-
-            <!--  ==========  -->
-            <!--  = Product =  -->
-            <!--  ==========  -->
-            <div class="span3">
-                <div class="product">
-                    <div class="product-img">
-                        <div class="picture">
-                            <img src="{% static 'images/dummy/most-popular-products/popular-2.jpg' %}" alt=""
-                                width="540" height="412" />
-                            <div class="img-overlay">
-                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="main-titles no-margin">
-                        <h4 class="title">$32</h4>
-                        <h5 class="no-margin">محصول ویژه 280</h5>
-                    </div>
-                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-                    <p class="center-align stars">
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star"></span>
-                        <span class="icon-star"></span>
-
-                    </p>
-                </div>
-            </div> <!-- /product -->
-
-
-
-            <!--  ==========  -->
-            <!--  = Product =  -->
-            <!--  ==========  -->
-            <div class="span3">
-                <div class="product">
-                    <div class="product-img">
-                        <div class="picture">
-                            <img src="{% static 'images/dummy/most-popular-products/popular-3.jpg' %}" alt=""
-                                width="540" height="412" />
-                            <div class="img-overlay">
-                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="main-titles no-margin">
-                        <h4 class="title">$32</h4>
-                        <h5 class="no-margin">محصول ویژه 158</h5>
-                    </div>
-                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-                    <p class="center-align stars">
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star"></span>
-                        <span class="icon-star"></span>
-                        <span class="icon-star"></span>
-                        <span class="icon-star"></span>
-
-                    </p>
-                </div>
-            </div> <!-- /product -->
-
-
-
-            <!--  ==========  -->
-            <!--  = Product =  -->
-            <!--  ==========  -->
-            <div class="span3">
-                <div class="product">
-                    <div class="product-img">
-                        <div class="picture">
-                            <img src="{% static 'images/dummy/most-popular-products/popular-4.jpg' %}" alt=""
-                                width="540" height="412" />
-                            <div class="img-overlay">
-                                <a href="#" class="btn more btn-primary">توضیحات بیشتر</a>
-                                <a href="#" class="btn buy btn-danger">اضافه به سبد خرید</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="main-titles no-margin">
-                        <h4 class="title">$32</h4>
-                        <h5 class="no-margin">محصول ویژه 275</h5>
-                    </div>
-                    <p class="desc">توضیحاتی که در مورد محصول لازم است را در اینجا مینویسید</p>
-                    <p class="center-align stars">
-                        <span class="icon-star stars-clr"></span>
-                        <span class="icon-star"></span>
-                        <span class="icon-star"></span>
-                        <span class="icon-star"></span>
-                        <span class="icon-star"></span>
-
-                    </p>
-                </div>
-            </div> <!-- /product -->
+            {% endfor %}
         </div>
     </div>
 </div> <!-- /most popular -->
@@ -544,61 +466,19 @@
         <div class="row">
             <div class="span12">
                 <div class="carouFredSel" data-nav="tweets" data-autoplay="false">
-
-
-                    <!--  ==========  -->
-                    <!--  = Slide =  -->
-                    <!--  ==========  -->
+                    {% for i in news %}
                     <div class="slide">
                         <div class="row">
-                            <div class="span6">
+                            <div class="span12">
                                 <div class="news-item">
-                                    <div class="published">12 بهمن 1392</div>
-                                    <h6><a href="#">عنوان خبر شما</a></h6>
-                                    <p>در این قسمت میتوانید خبر خود را بنویسید. این یک نوشته ی آزمایشی است که صرفا برای
-                                        پر کردن این بخش به کار رفته و جنبه ی دیگری ندارد. شما میتوانید این ناحیه را با
-                                        محتوای دلخواه خود پر کنید.</p>
-                                </div>
-                            </div>
-                            <div class="span6">
-                                <div class="news-item">
-                                    <div class="published">15 بهمن 1392</div>
-                                    <h6><a href="#">یک خبر جالب دیگر</a></h6>
-                                    <p>در این قسمت میتوانید خبر خود را بنویسید. این یک نوشته ی آزمایشی است که صرفا برای
-                                        پر کردن این بخش به کار رفته و جنبه ی دیگری ندارد. شما میتوانید این ناحیه را با
-                                        محتوای دلخواه خود پر کنید.</p>
+                                    <div class="published">{{i.date}}</div>
+                                    <h6>{{i.subject}}</h6>
+                                    <p>{{i.content}}</p>
                                 </div>
                             </div>
                         </div>
                     </div> <!-- /slide -->
-
-
-                    <!--  ==========  -->
-                    <!--  = Slide =  -->
-                    <!--  ==========  -->
-                    <div class="slide">
-                        <div class="row">
-                            <div class="span6">
-                                <div class="news-item">
-                                    <div class="published">12 بهمن 1392</div>
-                                    <h6><a href="#">عنوان خبر شما</a></h6>
-                                    <p>در این قسمت میتوانید خبر خود را بنویسید. این یک نوشته ی آزمایشی است که صرفا برای
-                                        پر کردن این بخش به کار رفته و جنبه ی دیگری ندارد. شما میتوانید این ناحیه را با
-                                        محتوای دلخواه خود پر کنید.</p>
-                                </div>
-                            </div>
-                            <div class="span6">
-                                <div class="news-item">
-                                    <div class="published">15 بهمن 1392</div>
-                                    <h6><a href="#">یک خبر جالب دیگر</a></h6>
-                                    <p>در این قسمت میتوانید خبر خود را بنویسید. این یک نوشته ی آزمایشی است که صرفا برای
-                                        پر کردن این بخش به کار رفته و جنبه ی دیگری ندارد. شما میتوانید این ناحیه را با
-                                        محتوای دلخواه خود پر کنید.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div> <!-- /slide -->
-
+                    {% endfor %}
                 </div>
             </div>
         </div> <!-- /news content -->

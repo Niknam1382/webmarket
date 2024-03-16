@@ -123,7 +123,8 @@
                                 |
                                 {{ request.user.get_full_name }}
                                 |
-                                <a href="{% url 'accounts:logout' %}?next={{request.path}}" role="button" data-toggle="modal">خروج</a>
+                                <a href="{% url 'accounts:logout' %}?next={{request.path}}" role="button"
+                                    data-toggle="modal">خروج</a>
                                 {% else %}
                                 <a href="#loginModal" role="button" data-toggle="modal">ورود</a> یا
                                 <a href="#registerModal" role="button" data-toggle="modal">ثبت نام</a>
@@ -189,42 +190,16 @@
                                     <li class="dropdown">
                                         <a href="{% url 'blog:blog' %}" class="dropdown-toggle">بلاگ</a>
                                     </li>
-                                    <li class="dropdown">
-                                        <a href="features.html" class="dropdown-toggle">امکانات <b class="caret"></b>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="icons.html">آیکن ها</a></li>
-                                            <li class="dropdown">
-                                                <a href="features.html" class="dropdown-toggle"><i
-                                                        class="icon-caret-left pull-right visible-desktop"></i> همه
-                                                    امکانات</a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a href="features.html#headings">سرخط ها</a></li>
-                                                    <li><a href="features.html#alertBoxes">جعبه های هشدار</a></li>
-                                                    <li><a href="features.html#tabs">تب ها</a></li>
-                                                    <li><a href="features.html#buttons">دکمه ها</a></li>
-                                                    <li><a href="features.html#toggles">تاگل ها</a></li>
-                                                    <li><a href="features.html#quotes">نقل قول ها</a></li>
-                                                    <li><a href="features.html#gallery">گرید های گالری</a></li>
-                                                    <li><a href="features.html#code">کد</a></li>
-                                                    <li><a href="features.html#columns">ستون ها</a></li>
-                                                    <li><a href="features.html#maps">نقشه ها</a></li>
-                                                    <li><a href="features.html#progress">نوار های پیشرفت</a></li>
-                                                    <li><a href="features.html#tables">جداول</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="about-us.html">درباره ما</a></li>
+                                    <li><a href="{% url 'website:about_us' %}">درباره ما</a></li>
                                     <li><a href="{% url 'website:contact' %}">تماس با ما</a></li>
                                 </ul>
 
                                 <!--  ==========  -->
                                 <!--  = Search form =  -->
                                 <!--  ==========  -->
-                                <form class="navbar-form pull-right" action="#" method="get">
+                                <form class="navbar-form pull-right" action="{% url 'website:search' %}" method="get">
                                     <button type="submit"><span class="icon-search"></span></button>
-                                    <input type="text" class="span1" name="search" id="navSearchInput">
+                                    <input type="text" class="span1" name="s" id="navSearchInput">
                                 </form>
                             </div><!-- /.nav-collapse -->
                         </div>
@@ -236,7 +211,8 @@
                         {% cart_detail request=request %}
                         {% else %}
                         <p></p>
-                        <p style="display: inline; text-align: center; padding: 20px;" class="cart-container dark-clr hidden-tablet">
+                        <p style="display: inline; text-align: center; padding: 20px;"
+                            class="cart-container dark-clr hidden-tablet">
                             ( برای مشاهده سبد خرید وارد شوید )
                         </p>
                         {% endif %}
@@ -600,7 +576,7 @@
     <!--  = Custom JS =  -->
     <script src="{% static 'New folder/custom.js' %}" type="text/javascript"></script>
 
+
 </body>
-response.json()
 
 </html>
