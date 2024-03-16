@@ -252,7 +252,7 @@ def cart_detail4(request):
             subject = 'اطلاعیه سفارش آفلاین'
             txt1 = f'سفارش دهنده : {first_name} {last_name}'
             txt2 = f'نام کاربری : {request.user.username}'
-            txt3 = f'{email} - {city}'
+            txt3 = f'{email} \n {city}'
             txt4 = f'{phone_number}'
             txt5 = f'{address1}'
             txt6 = f'{address2}'
